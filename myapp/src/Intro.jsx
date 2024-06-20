@@ -1,5 +1,5 @@
 import React from 'react';
-
+// this is a function component named Intro
 function Intro() {
   return (
     <div>
