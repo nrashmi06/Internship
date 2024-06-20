@@ -7,12 +7,14 @@ import Update from './Update';
 import Football from './Football';
 import Garage from './Garage';
 import FavoriteColor from './FavoriteColor';
+import Counter from './Counter';
+import Todos from './ToDo';
 
 
 function App() {
   return (
     <>
-    <FavoriteColor />
+    <Todos/>
     </>
   );
 }
