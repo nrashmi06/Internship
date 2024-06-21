@@ -14,7 +14,7 @@ import Todos from './ToDo';
 function App() {
   return (
     <>
-    <Todos/>
+    <Car name="aulto" />
     </>
   );
 }
