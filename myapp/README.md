@@ -1,10 +1,17 @@
-# Getting Started with Create React App
+# Internship Project README
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the internship project! This README file provides an overview of the tasks and objectives of the internship, specifically focused on learning and using React.
 
-## Available Scripts
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Project Setup](#project-setup)
+3. [Task 1: Learning React](#task-1-learning-react)
 
-In the project directory, you can run:
+## Introduction
+
+During this internship, the primary goal is to become proficient in React, a popular JavaScript library for building user interfaces. The tasks are designed to help you understand the core concepts of React, including components, props, and hooks, by working through the official React documentation and building practical applications.
+
+## Project Setup
 
 ### `npm start`
 
