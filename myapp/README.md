@@ -11,8 +11,18 @@ Welcome to the internship project! This README file provides an overview of the 
 
 During this internship, the primary goal is to become proficient in React, a popular JavaScript library for building user interfaces. The tasks are designed to help you understand the core concepts of React, including components, props, and hooks, by working through the official React documentation and building practical applications.
 
+-----------------------------------------------------------------------------------------------------------------
 ## Project Setup
+1. **Clone the Repository**:
+     git clone url
+   
+2. **Install Dependencies**
+     npm install
 
+3. **Start the Development Server:**
+     npm start
+
+-----------------------------------------------------------------------------------------------------------------
 ### `npm start`
 
 Runs the app in the development mode.\
