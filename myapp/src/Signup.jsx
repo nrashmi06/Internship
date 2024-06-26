@@ -10,7 +10,7 @@ const Signup = () => {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -48,18 +48,16 @@ const Signup = () => {
     }
 
     setErrors(validationErrors);
-  }, [email, mobile, password, confirmPassword, name, submitted]);
+
+    if (Object.keys(validationErrors).length === 0) {
+      console.log('Signup successful');
+      navigate('/');
+    }
+  }, [email, mobile, password, confirmPassword, name, submitted, navigate]);
 
   const handleSignup = (e) => {
     e.preventDefault();
     setSubmitted(true);
-
-    if (Object.keys(errors).length === 0) {
-      console.log('Signup successful');
-      navigate('/'); 
-    } else {
-      console.log('Validation errors', errors);
-    }
   };
 
   return (
