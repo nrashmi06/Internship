@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-const Login = ({ setAuth }) => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
     console.log('Email:', email, 'Password:', password);
-    alert('Login successful' + " Email :" + email + " Password :" + password);
-    setAuth(true);
-    navigate('/dashboard');
+    alert('Login successful' + " Email :" + email + " Password :" + password)
   };
 
   return (
