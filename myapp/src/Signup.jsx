@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -63,59 +65,71 @@ const Signup = () => {
   return (
     <div className="form-container">
       <h2>Signup</h2>
-      <form onSubmit={handleSignup}>
-        <div>
-          <label>Name:</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
+      <Form onSubmit={handleSignup}>
+        <Form.Group className="mb-3" controlId="formBasicName">
+          <Form.Label>Name</Form.Label>
+          <Form.Control 
+            type="text" 
+            placeholder="Enter name" 
+            value={name} 
+            onChange={(e) => setName(e.target.value)} 
+            required 
           />
           {errors.name && <p className="error">{errors.name}</p>}
-        </div>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control 
+            type="email" 
+            placeholder="Enter email" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} 
+            required 
           />
           {errors.email && <p className="error">{errors.email}</p>}
-        </div>
-        <div>
-          <label>Mobile Number:</label>
-          <input
-            type="tel"
-            value={mobile}
-            onChange={(e) => setMobile(e.target.value)}
-            required
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formBasicMobile">
+          <Form.Label>Mobile Number</Form.Label>
+          <Form.Control 
+            type="tel" 
+            placeholder="Enter mobile number" 
+            value={mobile} 
+            onChange={(e) => setMobile(e.target.value)} 
+            required 
           />
           {errors.mobile && <p className="error">{errors.mobile}</p>}
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control 
+            type="password" 
+            placeholder="Enter password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+            required 
           />
           {errors.password && <p className="error">{errors.password}</p>}
-        </div>
-        <div>
-          <label>Confirm Password:</label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control 
+            type="password" 
+            placeholder="Confirm password" 
+            value={confirmPassword} 
+            onChange={(e) => setConfirmPassword(e.target.value)} 
+            required 
           />
           {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
-        </div>
-        <button type="submit">Signup</button>
-      </form>
+        </Form.Group>
+
+        <Button variant="primary" type="submit">
+          Signup
+        </Button>
+      </Form>
     </div>
   );
 };

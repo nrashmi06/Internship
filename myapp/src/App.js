@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, Link, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
 import Dashboard from './Dashboard';
 import Cookies from 'js-cookie';
 import './App.css';
+import Navbar from './Navbar1';
 
 function App() {
   const [auth, setAuth] = React.useState(() => {
@@ -23,13 +24,8 @@ function App() {
 
   return (
     <>
-      <h1>HOME</h1>
-      <nav>
-        <ul>
-          <li><Link to="/login">Login</Link></li>
-          <li><Link to="/signup">Signup</Link></li>
-        </ul>
-      </nav>
+      
+      < Navbar />
       <Routes>
         <Route path="/login" element={<Login setAuth={setAuth} />} />
         <Route path="/signup" element={<Signup />} />
