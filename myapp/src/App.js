@@ -8,32 +8,13 @@ import './App.css';
 
 function App() {
   const [auth, setAuth] = React.useState(() => {
-    const AuthCookie = localStorage.getItem("auth");
-    if (AuthCookie === undefined || AuthCookie === null) {
-      console.log("null");
+  const AuthCookie = localStorage.getItem("auth");
+  if (AuthCookie === undefined || AuthCookie === null) {
       localStorage.setItem("auth", "false");
       return false;
     }
-    return AuthCookie === "true";
+    return AuthCookie === "true" ? true : false;
   });
-
-  useEffect(() => {
-    const AuthCookie = localStorage.getItem("auth");
-    if (AuthCookie === undefined || AuthCookie === null) {
-      console.log("null");
-      localStorage.setItem("auth", "false");
-      setAuth(false);
-    } else if (AuthCookie === "false") {
-      console.log("false");
-      setAuth(false);
-    } else if (AuthCookie === "true") {
-      console.log("true");
-      setAuth(true);
-    } else {
-      console.log("The cookie is set, but can't be read or has a different value");
-      setAuth(false);
-    }
-  }, []);
 
   useEffect(() => {
     Cookies.set('auth', JSON.stringify(auth), { expires: 1 }); 
