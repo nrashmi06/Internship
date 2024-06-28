@@ -7,8 +7,8 @@ function CustomNavbar() {
     <>
       <Navbar bg="dark" variant="dark" className='navbar mb-4'>
         <Container>
-          <Navbar.Brand href="#home"> Navbar </Navbar.Brand>
-          <Nav className="me-auto">
+          <Navbar.Brand > Navbar </Navbar.Brand>
+          <Nav >
             <Nav.Link as={Link} to="/login">Login</Nav.Link>
             <Nav.Link as={Link} to="/signup">Signup</Nav.Link>
           </Nav>

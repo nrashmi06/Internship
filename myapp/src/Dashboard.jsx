@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
+import Accordion from 'react-bootstrap/Accordion';
+import Alert from 'react-bootstrap/Alert';
 
 function Dashboard({ setAuth }) {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ function Dashboard({ setAuth }) {
   };
 
   return (
-    <div>
+    <>
       {showAlert && (
         <Alert variant="success">
           <Alert.Heading>This is the dashboard</Alert.Heading>
@@ -30,10 +31,20 @@ function Dashboard({ setAuth }) {
       )}
 
       <h1>Dashboard</h1>
-      <Button variant="primary" size="lg" onClick={handleLogout}>
+
+      <Accordion defaultActiveKey="0" flush className='mb-4'>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>Accordion Item #1</Accordion.Header>
+          <Accordion.Body>
+            This is the dashboard
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
+
+      <Button className='w-100' variant="primary" size="lg" onClick={handleLogout}>
         Logout
       </Button>
-    </div>
+    </>
   );
 }
 

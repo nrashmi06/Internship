@@ -19,7 +19,7 @@ const Login = ({ setAuth }) => {
   return (
     <div className="form-container">
       <h2>Login</h2>
-      <Form onSubmit={handleLogin}>
+      <Form onSubmit={handleLogin} className=' align-items-center '>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control 
