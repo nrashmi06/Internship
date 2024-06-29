@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 import Button from 'react-bootstrap/Button';
 import Accordion from 'react-bootstrap/Accordion';
 import Alert from 'react-bootstrap/Alert';
 
+
 function Dashboard({ setAuth }) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState(true);
 
-  const handleLogout = () => {
-    alert("You have been logged out");
-    setAuth(false);
-    Cookies.remove('auth');
-    navigate('/login');
-  };
+  // const handleLogout = () => {
+  //   alert("You have been logged out");
+  //   setAuth(false);
+  //   Cookies.remove('auth');
+  //   navigate('/login');
+  // };
 
   return (
     <>
@@ -41,9 +40,9 @@ function Dashboard({ setAuth }) {
         </Accordion.Item>
       </ccordion>
 
-      <Button className='w-100' variant="primary" size="lg" onClick={handleLogout}>
+      {/* <Button className='w-100' variant="primary" size="lg" onClick={handleLogout}>
         Logout
-      </Button>
+      </Button> */}
     </>
   );
 }
