@@ -5,15 +5,7 @@ import Alert from 'react-bootstrap/Alert';
 
 
 function Dashboard({ setAuth }) {
-  // const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState(true);
-
-  // const handleLogout = () => {
-  //   alert("You have been logged out");
-  //   setAuth(false);
-  //   Cookies.remove('auth');
-  //   navigate('/login');
-  // };
 
   return (
     <>

@@ -7,6 +7,7 @@ import Cookies from 'js-cookie';
 import './App.css';
 import Navbar from './Navbar1';
 import Navbar2 from './Navbar2';
+import Recipie from './Recipie';  
 
 function App() {
   const [auth, setAuth] = React.useState(() => {
@@ -28,12 +29,13 @@ function App() {
     <>
       {auth ? <Navbar2 setAuth={setAuth}/> : <Navbar />} 
       <Routes>
-        <Route path="/login" element={<Login setAuth={setAuth} />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={auth ? <Navigate to = "/dashboard" /> : <Login setAuth={setAuth}  />} />
+        <Route path="/signup" element={auth ? <Navigate to = "/dashboard"/> : <Signup />} />
         <Route
           path="/dashboard"
           element={auth ? <Dashboard setAuth={setAuth} /> : <Navigate to="/login" />}
         />
+        <Route path="/recipies" element={auth ? <Recipie/> : <Navigate to="/login" /> } />
       </Routes>
     </>
   );

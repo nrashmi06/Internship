@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
+
 function Navbar2({ setAuth }) { // Destructure the setAuth prop
   const navigate = useNavigate();
   
@@ -18,6 +19,8 @@ function Navbar2({ setAuth }) { // Destructure the setAuth prop
         <Container>
           <Navbar.Brand>Navbar</Navbar.Brand>
           <Nav>
+            <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
+            <Nav.Link as={Link} to="/recipies">Recipies</Nav.Link>
             <Nav.Link as={Link} to="/login" onClick={handleLogout}>Logout</Nav.Link>
           </Nav>
         </Container>
