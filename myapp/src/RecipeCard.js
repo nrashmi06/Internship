@@ -13,9 +13,9 @@ const RecipeCard = ({ recipe, onImageClick, fullWidth }) => {
         style={{ cursor: 'pointer', height: fullWidth ? '200px' : 'auto', objectFit: 'contain' }}
       />
       <Card.Body className="d-flex flex-column">
-        <Card.Title>{recipe.strCategory}</Card.Title>
-        <Card.Text>
-          {recipe.strCategoryDescription.length > 100
+        <Card.Title  className="d-flex justify-content-center mt-auto" >{recipe.strCategory}</Card.Title>
+        <Card.Text className="d-flex justify-content-center mt-auto">
+          {recipe.strCategoryDescription.length > 100 && !fullWidth
             ? recipe.strCategoryDescription.substring(0, 100) + '...'
             : recipe.strCategoryDescription}
         </Card.Text>
