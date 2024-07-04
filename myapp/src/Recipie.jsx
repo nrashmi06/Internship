@@ -77,7 +77,7 @@ function Recipie() {
             </Button>
           </div>
           <div className='m-4'>
-            <SortButton sortOrder={sortOrder} onSortChange={handleSortChange} />
+            <SortButton onSortChange={handleSortChange} />
           </div>
         </div>
       </header>
