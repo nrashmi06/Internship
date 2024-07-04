@@ -8,34 +8,31 @@ import './App.css';
 import Navbar from './Navbar1';
 import Navbar2 from './Navbar2';
 import Recipie from './Recipie';  
+import { getLocalStorageItem, setLocalStorageItem } from './LocalStorage'; 
 
 function App() {
   const [auth, setAuth] = React.useState(() => {
-    const AuthCookie = localStorage.getItem("auth");
-    if (AuthCookie === undefined || AuthCookie === null) {
-      localStorage.setItem("auth", "false");
+    const authLocalStorage = getLocalStorageItem('auth');
+    if (authLocalStorage === null) {
+      setLocalStorageItem('auth', false); 
       return false;
     }
-    return AuthCookie === "true";
+    return authLocalStorage;
   });
-   console.log('auth 1:', auth);
+
   useEffect(() => {
+    setLocalStorageItem('auth', auth); 
     Cookies.set('auth', JSON.stringify(auth), { expires: 1 }); 
-    localStorage.setItem('auth', auth.toString());
-    console.log('auth:', auth);
   }, [auth]);
 
   return (
     <>
-      {auth ? <Navbar2 setAuth={setAuth}/> : <Navbar />} 
+      {auth ? <Navbar2 setAuth={setAuth} /> : <Navbar />} 
       <Routes>
-        <Route path="/login" element={auth ? <Navigate to = "/dashboard" /> : <Login setAuth={setAuth}  />} />
-        <Route path="/signup" element={auth ? <Navigate to = "/dashboard"/> : <Signup />} />
-        <Route
-          path="/dashboard"
-          element={auth ? <Dashboard setAuth={setAuth} /> : <Navigate to="/login" />}
-        />
-        <Route path="/recipies" element={auth ? <Recipie/> : <Navigate to="/login" /> } />
+        <Route path="/login" element={auth ? <Navigate to="/dashboard" /> : <Login setAuth={setAuth} />} />
+        <Route path="/signup" element={auth ? <Navigate to="/dashboard" /> : <Signup />} />
+        <Route path="/dashboard" element={auth ? <Dashboard setAuth={setAuth} /> : <Navigate to="/login" />} />
+        <Route path="/recipies" element={auth ? <Recipie /> : <Navigate to="/login" />} />
       </Routes>
     </>
   );

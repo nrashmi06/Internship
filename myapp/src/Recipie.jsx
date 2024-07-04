@@ -19,14 +19,17 @@ function Recipie() {
   const [sortOrder, setSortOrder] = useState('asc');
 
   useEffect(() => {
-    setTimeout(() => {
-      fetchRecipes().then(data => {
+    fetchRecipes()
+      .then(data => {
         setRecipes(data);
-        setFilteredRecipes(data);
-        setLoading(false);
+        setFilteredRecipes(data); 
+        setLoading(false); 
+      })
+      .catch(error => {
+        console.error('Error fetching recipes:', error);
+        setLoading(false); 
       });
-    }, 500); // Set delay time in milliseconds (e.g., 500 ms)
-  }, []);
+  }, []); 
 
   useEffect(() => {
     const filtered = recipes.filter(recipe =>
@@ -34,21 +37,6 @@ function Recipie() {
     );
     setFilteredRecipes(filtered);
   }, [searchTerm, recipes]);
-
-  useEffect(() => {
-    const sorted = [...filteredRecipes].sort((a, b) => {
-      if (sortOrder === 'asc') {
-        return a.strCategory.localeCompare(b.strCategory);
-      } else {
-        return b.strCategory.localeCompare(a.strCategory);
-      }
-    });
-    setFilteredRecipes(sorted);
-  }, [sortOrder, filteredRecipes]);
-
-  if (loading) {
-    return <Loading />;
-  }
 
   const handleImageClick = (image) => {
     setToastImage(image);
@@ -60,26 +48,37 @@ function Recipie() {
   const toggleLayout = () => setIsGridLayout(!isGridLayout);
 
   const handleSortChange = () => {
+    const sorted = [...filteredRecipes].sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return a.strCategory.localeCompare(b.strCategory);
+      } else {
+        return b.strCategory.localeCompare(a.strCategory);
+      }
+    });
+    setFilteredRecipes(sorted);
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <>
-      <header >
+      <header>
         <h1 className='d-flex justify-content-center'>Recipes</h1>
-        <div className='d-flex justify-content-center '>
-        
-        <div className='d-flex justify-content-center m-4'>
-          <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
-        </div>
-        <div className='d-flex justify-content-center m-4'>
-          <Button onClick={toggleLayout}>
-            {isGridLayout ? 'List Layout' : 'Grid Layout'}
-          </Button>
-        </div>
-        <div className='d-flex justify-content-center m-4'>
-          <SortButton sortOrder={sortOrder} onSortChange={handleSortChange} />
-        </div>
+        <div className='d-flex justify-content-center'>
+          <div className='m-4'>
+            <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+          </div>
+          <div className='m-4'>
+            <Button onClick={toggleLayout}>
+              {isGridLayout ? 'List Layout' : 'Grid Layout'}
+            </Button>
+          </div>
+          <div className='m-4'>
+            <SortButton sortOrder={sortOrder} onSortChange={handleSortChange} />
+          </div>
         </div>
       </header>
       {isGridLayout ? (
