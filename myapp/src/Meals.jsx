@@ -33,10 +33,14 @@ function Meals() {
   }, []);
 
   useEffect(() => {
-    const filtered = meals.filter(meal =>
-      meal.strMeal.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredMeals(filtered);
+    const delayDebounceFn = setTimeout(() => {
+      const filtered = meals.filter(meal =>
+        meal.strMeal.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredMeals(filtered);
+    }, 900); 
+
+    return () => clearTimeout(delayDebounceFn); 
   }, [searchTerm, meals]);
 
   const handleImageClick = (image) => {

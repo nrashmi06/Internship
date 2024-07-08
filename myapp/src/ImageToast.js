@@ -11,14 +11,14 @@ const ImageToast = ({ showToast, toggleShowToast, toastImage }) => {
     >
       <Toast className="bg-white" show={showToast} onClose={toggleShowToast} style={{ width: '50vw', height: 'auto', overflow: 'hidden' }}>
         <Toast.Header>
-          <strong className="me-auto">Recipe Image</strong>
+          <strong className=" me-auto">Image</strong>
         </Toast.Header>
         <Toast.Body style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0' }}>
           <img
             src={toastImage}
             alt="Recipe"
             style={{
-              maxWidth: '50%',
+              maxWidth: '60%',
               maxHeight: '50%',
               objectFit: 'contain',
             }}

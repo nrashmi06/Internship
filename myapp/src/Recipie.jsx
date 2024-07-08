@@ -33,10 +33,14 @@ function Recipie() {
   }, []); 
 
   useEffect(() => {
-    const filtered = recipes.filter(recipe =>
-      recipe.strCategory.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredRecipes(filtered);
+    const delayDebounceFn = setTimeout(() => {
+      const filtered = recipes.filter(recipe =>
+        recipe.strCategory.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredRecipes(filtered);
+    }, 800); 
+
+    return () => clearTimeout(delayDebounceFn); 
   }, [searchTerm, recipes]);
 
   const handleImageClick = (image) => {
