@@ -2,23 +2,29 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
-const RecipeCard = ({ recipe, onImageClick, fullWidth }) => {
+const RecipeCard = ({ item, onImageClick, fullWidth, type }) => {
+  const isCategory = type === 'category';
+
   return (
-    <Card key={recipe.idCategory} style={{ width: fullWidth ? '100%' : '18rem', margin: '1rem' }}>
+    <Card key={isCategory ? item.idCategory : item.idMeal} style={{ width: fullWidth ? '100%' : '18rem', margin: '1rem' }}>
       <Card.Img
         variant="top"
-        src={recipe.strCategoryThumb}
-        alt={recipe.strCategory}
-        onClick={() => onImageClick(recipe.strCategoryThumb)}
-        style={{ cursor: 'pointer', height: fullWidth ? '200px' : 'auto', objectFit: 'contain' }}
+        src={isCategory ? item.strCategoryThumb : item.strMealThumb}
+        alt={isCategory ? item.strCategory : item.strMeal}
+        onClick={() => onImageClick(isCategory ? item.strCategoryThumb : item.strMealThumb)}
+        style={{ cursor: 'pointer', height: fullWidth ? '50vh' : 'auto', objectFit: 'contain' }}
       />
       <Card.Body className="d-flex flex-column">
-        <Card.Title  className="d-flex justify-content-center mt-auto" >{recipe.strCategory}</Card.Title>
-        <Card.Text className="d-flex justify-content-center mt-auto">
-          {recipe.strCategoryDescription.length > 100 && !fullWidth
-            ? recipe.strCategoryDescription.substring(0, 100) + '...'
-            : recipe.strCategoryDescription}
-        </Card.Text>
+        <Card.Title className="d-flex justify-content-center mt-auto">
+          {isCategory ? item.strCategory : item.strMeal}
+        </Card.Title>
+        {isCategory && (
+          <Card.Text className="d-flex justify-content-center mt-auto">
+            {item.strCategoryDescription.length > 100 && !fullWidth
+              ? item.strCategoryDescription.substring(0, 100) + '...'
+              : item.strCategoryDescription}
+          </Card.Text>
+        )}
         <div className="d-flex justify-content-center mt-auto">
           <Button variant="primary">View</Button>
         </div>

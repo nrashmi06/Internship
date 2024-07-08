@@ -1,11 +1,11 @@
 import React from 'react';
 import RecipeCard from './RecipeCard';
 
-const ListLayout = ({ recipes, onImageClick }) => {
+const ListLayout = ({ items, onImageClick, type }) => {
   return (
     <div className="d-flex flex-column align-items-center">
-      {recipes.map(recipe => (
-        <RecipeCard key={recipe.idCategory} recipe={recipe} onImageClick={onImageClick} fullWidth />
+      {items.map(item => (
+        <RecipeCard key={type === 'category' ? item.idCategory : item.idMeal} item={item} onImageClick={onImageClick} fullWidth type={type} />
       ))}
     </div>
   );

@@ -1,12 +1,15 @@
-export const fetchRecipes = () => {
-    return fetch('https://www.themealdb.com/api/json/v1/1/categories.php', {
-      method: 'GET',
-    })
-      .then(response => response.json())
-      .then(data => data.categories)
-      .catch(error => {
-        console.error(error);
-        return [];
-      });
-  };
-//   get call
+
+import { BASE_URL} from './apiConfig';
+
+export const fetchRecipes = (endpoint) => {
+  const url = `${BASE_URL}${endpoint}`;
+  return fetch(url, {
+    method: 'GET',
+  })
+    .then(response => response.json())
+    .then(data => data.categories || data.meals) 
+    .catch(error => {
+      console.error(error);
+      return [];
+    });
+};

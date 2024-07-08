@@ -8,6 +8,7 @@ import './App.css';
 import Navbar from './Navbar1';
 import Navbar2 from './Navbar2';
 import Recipie from './Recipie';  
+import Meals from './Meals';
 import { getLocalStorageItem, setLocalStorageItem } from './LocalStorage'; 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route path="/signup" element={auth ? <Navigate to="/dashboard" /> : <Signup />} />
         <Route path="/dashboard" element={auth ? <Dashboard setAuth={setAuth} /> : <Navigate to="/login" />} />
         <Route path="/recipies" element={auth ? <Recipie /> : <Navigate to="/login" />} />
+        <Route path="/meals" element={auth ? <Meals /> : <Navigate to="/login" />} />
       </Routes>
     </>
   );

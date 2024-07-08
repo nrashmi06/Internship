@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import ImageToast from './ImageToast'; 
+import ImageToast from './ImageToast';
 import Loading from './Loading';
 import { fetchRecipes } from './Api';
 import { ENDPOINTS } from './apiConfig';
@@ -9,9 +9,9 @@ import ListLayout from './ListLayout';
 import SearchBar from './SearchBar';
 import SortButton from './SortButton';
 
-function Recipie() {
-  const [recipes, setRecipes] = useState([]);
-  const [filteredRecipes, setFilteredRecipes] = useState([]);
+function Meals() {
+  const [meals, setMeals] = useState([]);
+  const [filteredMeals, setFilteredMeals] = useState([]);
   const [showToast, setShowToast] = useState(false);
   const [toastImage, setToastImage] = useState('');
   const [loading, setLoading] = useState(true);
@@ -20,24 +20,24 @@ function Recipie() {
   const [sortOrder, setSortOrder] = useState('asc');
 
   useEffect(() => {
-    fetchRecipes(ENDPOINTS.CATEGORIES)
+    fetchRecipes(ENDPOINTS.SEAFOOD) // Assuming the endpoint to fetch meals is ENDPOINTS.SEAFOOD
       .then(data => {
-        setRecipes(data);
-        setFilteredRecipes(data); 
-        setLoading(false); 
+        setMeals(data);
+        setFilteredMeals(data);
+        setLoading(false);
       })
       .catch(error => {
-        console.error('Error fetching recipes:', error);
-        setLoading(false); 
+        console.error('Error fetching meals:', error);
+        setLoading(false);
       });
-  }, []); 
+  }, []);
 
   useEffect(() => {
-    const filtered = recipes.filter(recipe =>
-      recipe.strCategory.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = meals.filter(meal =>
+      meal.strMeal.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    setFilteredRecipes(filtered);
-  }, [searchTerm, recipes]);
+    setFilteredMeals(filtered);
+  }, [searchTerm, meals]);
 
   const handleImageClick = (image) => {
     setToastImage(image);
@@ -49,14 +49,14 @@ function Recipie() {
   const toggleLayout = () => setIsGridLayout(!isGridLayout);
 
   const handleSortChange = () => {
-    const sorted = [...filteredRecipes].sort((a, b) => {
+    const sorted = [...filteredMeals].sort((a, b) => {
       if (sortOrder === 'asc') {
-        return a.strCategory.localeCompare(b.strCategory);
+        return a.strMeal.localeCompare(b.strMeal);
       } else {
-        return b.strCategory.localeCompare(a.strCategory);
+        return b.strMeal.localeCompare(a.strMeal);
       }
     });
-    setFilteredRecipes(sorted);
+    setFilteredMeals(sorted);
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
@@ -67,7 +67,7 @@ function Recipie() {
   return (
     <>
       <header>
-        <h1 className='d-flex justify-content-center'>Recipes</h1>
+        <h1 className='d-flex justify-content-center'>Meals</h1>
         <div className='d-flex justify-content-center'>
           <div className='m-4'>
             <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
@@ -83,17 +83,17 @@ function Recipie() {
         </div>
       </header>
       {isGridLayout ? (
-        <GridLayout items={filteredRecipes} onImageClick={handleImageClick} type="category" />
+        <GridLayout items={filteredMeals} onImageClick={handleImageClick} type="meal" />
       ) : (
-        <ListLayout items={filteredRecipes} onImageClick={handleImageClick} type="category" />
+        <ListLayout items={filteredMeals} onImageClick={handleImageClick} type="meal" />
       )}
       <ImageToast
         showToast={showToast}
         toggleShowToast={toggleShowToast}
-        toastImage={toastImage}
+        toastImage={toastImage }
       />
     </>
   );
 }
 
-export default Recipie;
+export default Meals;
