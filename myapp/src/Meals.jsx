@@ -20,7 +20,7 @@ function Meals() {
   const [sortOrder, setSortOrder] = useState('asc');
 
   useEffect(() => {
-    fetchRecipes(ENDPOINTS.SEAFOOD) // Assuming the endpoint to fetch meals is ENDPOINTS.SEAFOOD
+    fetchRecipes(ENDPOINTS.SEAFOOD) 
       .then(data => {
         setMeals(data);
         setFilteredMeals(data);
