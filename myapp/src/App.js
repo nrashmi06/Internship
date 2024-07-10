@@ -34,7 +34,9 @@ function App() {
         <Route path="/signup" element={auth ? <Navigate to="/dashboard" /> : <Signup />} />
         <Route path="/dashboard" element={auth ? <Dashboard setAuth={setAuth} /> : <Navigate to="/login" />} />
         <Route path="/recipies" element={auth ? <Recipie /> : <Navigate to="/login" />} />
-        <Route path="/meals" element={auth ? <Meals /> : <Navigate to="/login" />} />
+        <Route path="/meals/:category" element={auth ? <Meals /> : <Navigate to="/login" />} />
+        <Route path="/meals" element={auth ? <Meals /> : <Navigate to="/login" />} /> 
+        <Route path="*" element={<Navigate to={auth ? "/dashboard" : "/login"} />} />
       </Routes>
     </>
   );

@@ -1,3 +1,4 @@
+// Recipie.js
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import ImageToast from './ImageToast'; 
@@ -23,14 +24,14 @@ function Recipie() {
     fetchRecipes(ENDPOINTS.CATEGORIES)
       .then(data => {
         setRecipes(data);
-        setFilteredRecipes(data); 
-        setLoading(false); 
+        setFilteredRecipes(data);
+        setLoading(false);
       })
       .catch(error => {
         console.error('Error fetching recipes:', error);
-        setLoading(false); 
+        setLoading(false);
       });
-  }, []); 
+  }, []);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -38,12 +39,12 @@ function Recipie() {
         recipe.strCategory.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredRecipes(filtered);
-    }, 800); 
+    }, 1000);
 
-    return () => clearTimeout(delayDebounceFn); 
+    return () => clearTimeout(delayDebounceFn);
   }, [searchTerm, recipes]);
 
-  const handleImageClick = (image) => {
+  const handleImageClick = image => {
     setToastImage(image);
     setShowToast(true);
   };

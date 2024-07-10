@@ -18,7 +18,7 @@ const ImageToast = ({ showToast, toggleShowToast, toastImage }) => {
             src={toastImage}
             alt="Recipe"
             style={{
-              maxWidth: '60%',
+              maxWidth: '30%',
               maxHeight: '50%',
               objectFit: 'contain',
             }}

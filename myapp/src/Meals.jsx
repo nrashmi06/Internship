@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import ImageToast from './ImageToast';
 import Loading from './Loading';
-import { fetchRecipes } from './Api';
-import { ENDPOINTS } from './apiConfig';
-import GridLayout from './GridLayout';
-import ListLayout from './ListLayout';
 import SearchBar from './SearchBar';
 import SortButton from './SortButton';
+import GridLayout from './GridLayout';
+import ListLayout from './ListLayout';
+import { fetchMealsByCategory } from './Api'; // Import fetchMealsByCategory function
 
 function Meals() {
+  const { category: categoryParam } = useParams();
+  const [category, setCategory] = useState(categoryParam || 'Seafood');
   const [meals, setMeals] = useState([]);
   const [filteredMeals, setFilteredMeals] = useState([]);
   const [showToast, setShowToast] = useState(false);
@@ -20,17 +22,21 @@ function Meals() {
   const [sortOrder, setSortOrder] = useState('asc');
 
   useEffect(() => {
-    fetchRecipes(ENDPOINTS.SEAFOOD) 
+    setLoading(true); // Set loading state when starting fetch
+    
+    // Fetch meals data by category
+    fetchMealsByCategory(category)
       .then(data => {
-        setMeals(data);
+        setMeals(data );
         setFilteredMeals(data);
-        setLoading(false);
+        console.log(data);
+        setLoading(false); // Set loading state to false when fetch completes
       })
       .catch(error => {
         console.error('Error fetching meals:', error);
-        setLoading(false);
+        setLoading(false); // Set loading state to false on error as well
       });
-  }, []);
+  }, [category]);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -38,12 +44,12 @@ function Meals() {
         meal.strMeal.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredMeals(filtered);
-    }, 900); 
+    }, 1000);
 
-    return () => clearTimeout(delayDebounceFn); 
+    return () => clearTimeout(delayDebounceFn);
   }, [searchTerm, meals]);
 
-  const handleImageClick = (image) => {
+  const handleImageClick = image => {
     setToastImage(image);
     setShowToast(true);
   };
@@ -71,30 +77,30 @@ function Meals() {
   return (
     <>
       <header>
-        <h1 className='d-flex justify-content-center'>Meals</h1>
-        <div className='d-flex justify-content-center'>
-          <div className='m-4'>
+        <h1 className="d-flex justify-content-center">Meals: {category}</h1>
+        <div className="d-flex justify-content-center">
+          <div className="m-4">
             <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
           </div>
-          <div className='m-4'>
+          <div className="m-4">
             <Button onClick={toggleLayout}>
               {isGridLayout ? 'List Layout' : 'Grid Layout'}
             </Button>
           </div>
-          <div className='m-4'>
+          <div className="m-4">
             <SortButton onSortChange={handleSortChange} />
           </div>
         </div>
       </header>
       {isGridLayout ? (
-        <GridLayout items={filteredMeals} onImageClick={handleImageClick} type="meal" />
+        <GridLayout items={filteredMeals} onImageClick={handleImageClick} type="meals" />
       ) : (
-        <ListLayout items={filteredMeals} onImageClick={handleImageClick} type="meal" />
+        <ListLayout items={filteredMeals} onImageClick={handleImageClick} type="meals" />
       )}
       <ImageToast
         showToast={showToast}
         toggleShowToast={toggleShowToast}
-        toastImage={toastImage }
+        toastImage={toastImage}
       />
     </>
   );
