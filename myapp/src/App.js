@@ -11,6 +11,7 @@ import Recipie from './Recipie';
 import Meals from './Meals';
 import { getLocalStorageItem, setLocalStorageItem } from './LocalStorage'; 
 
+
 function App() {
   const [auth, setAuth] = React.useState(() => {
     const authLocalStorage = getLocalStorageItem('auth');
@@ -30,13 +31,13 @@ function App() {
     <>
       {auth ? <Navbar2 setAuth={setAuth} /> : <Navbar />} 
       <Routes>
-        <Route path="/login" element={auth ? <Navigate to="/dashboard" /> : <Login setAuth={setAuth} />} />
+        <Route path="/" element={auth ? <Navigate to="/dashboard" /> : <Login setAuth={setAuth} />} />
         <Route path="/signup" element={auth ? <Navigate to="/dashboard" /> : <Signup />} />
-        <Route path="/dashboard" element={auth ? <Dashboard setAuth={setAuth} /> : <Navigate to="/login" />} />
-        <Route path="/recipies" element={auth ? <Recipie /> : <Navigate to="/login" />} />
-        <Route path="/meals/:category" element={auth ? <Meals /> : <Navigate to="/login" />} />
-        <Route path="/meals" element={auth ? <Meals /> : <Navigate to="/login" />} /> 
-        <Route path="*" element={<Navigate to={auth ? "/dashboard" : "/login"} />} />
+        <Route path="/dashboard" element={auth ? <Dashboard setAuth={setAuth} /> : <Navigate to="/" />} />
+        <Route path="/recipies" element={auth ? <Recipie /> : <Navigate to="/" />} />
+        <Route path="/meals/:category" element={auth ? <Meals /> : <Navigate to="/" />} />
+        <Route path="/meals" element={auth ? <Meals /> : <Navigate to="/" />} /> 
+        <Route path="*" element={<Navigate to={auth ? "/dashboard" : "/"} />} />
       </Routes>
     </>
   );

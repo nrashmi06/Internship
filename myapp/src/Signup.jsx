@@ -52,14 +52,36 @@ const Signup = () => {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      console.log('Signup successful');
-      navigate('/');
+      // If no validation errors, proceed to submit the form
+      handleSubmit();
     }
-  }, [email, mobile, password, confirmPassword, name, submitted, navigate]);
+  }, [email, mobile, password, confirmPassword, name, submitted]);
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch('api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, mobile_number: mobile, password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json(); // Parse JSON response from backend
+        throw new Error(errorData.message || 'Registration failed');
+      }
+
+      alert('Registration successful');
+      navigate('/'); // Navigate to home page after successful registration
+    } catch (error) {
+      console.error('Registration error:', error.message);
+    }
+  };
 
   const handleSignup = (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSubmitted(true); // Trigger form submission and validation
   };
 
   return (
@@ -68,60 +90,60 @@ const Signup = () => {
       <Form onSubmit={handleSignup}>
         <Form.Group className="mb-3" controlId="formBasicName">
           <Form.Label>Name</Form.Label>
-          <Form.Control 
-            type="text" 
-            placeholder="Enter name" 
-            value={name} 
-            onChange={(e) => setName(e.target.value)} 
-            required 
+          <Form.Control
+            type="text"
+            placeholder="Enter name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
           />
           {errors.name && <p className="error">{errors.name}</p>}
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
-          <Form.Control 
-            type="email" 
-            placeholder="Enter email" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
-            required 
+          <Form.Control
+            type="email"
+            placeholder="Enter email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
           />
           {errors.email && <p className="error">{errors.email}</p>}
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicMobile">
           <Form.Label>Mobile Number</Form.Label>
-          <Form.Control 
-            type="tel" 
-            placeholder="Enter mobile number" 
-            value={mobile} 
-            onChange={(e) => setMobile(e.target.value)} 
-            required 
+          <Form.Control
+            type="tel"
+            placeholder="Enter mobile number"
+            value={mobile}
+            onChange={(e) => setMobile(e.target.value)}
+            required
           />
           {errors.mobile && <p className="error">{errors.mobile}</p>}
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control 
-            type="password" 
-            placeholder="Enter password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            required 
+          <Form.Control
+            type="password"
+            placeholder="Enter password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
           />
           {errors.password && <p className="error">{errors.password}</p>}
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicConfirmPassword">
           <Form.Label>Confirm Password</Form.Label>
-          <Form.Control 
-            type="password" 
-            placeholder="Confirm password" 
-            value={confirmPassword} 
-            onChange={(e) => setConfirmPassword(e.target.value)} 
-            required 
+          <Form.Control
+            type="password"
+            placeholder="Confirm password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
           />
           {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
         </Form.Group>
