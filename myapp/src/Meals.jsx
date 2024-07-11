@@ -7,7 +7,8 @@ import SearchBar from './SearchBar';
 import SortButton from './SortButton';
 import GridLayout from './GridLayout';
 import ListLayout from './ListLayout';
-import { fetchMealsByCategory } from './Api'; // Import fetchMealsByCategory function
+import { fetchMealsByCategory } from './Api';
+import DropdownMenu from './DropdownMenu';
 
 function Meals() {
   const { category: categoryParam } = useParams();
@@ -22,19 +23,18 @@ function Meals() {
   const [sortOrder, setSortOrder] = useState('asc');
 
   useEffect(() => {
-    setLoading(true); // Set loading state when starting fetch
+    setLoading(true); 
+    console.log('Fetching meals for category:', category);
     
-    // Fetch meals data by category
     fetchMealsByCategory(category)
       .then(data => {
-        setMeals(data );
+        setMeals(data);
         setFilteredMeals(data);
-        console.log(data);
-        setLoading(false); // Set loading state to false when fetch completes
+        setLoading(false); 
       })
       .catch(error => {
         console.error('Error fetching meals:', error);
-        setLoading(false); // Set loading state to false on error as well
+        setLoading(false);
       });
   }, [category]);
 
@@ -70,6 +70,10 @@ function Meals() {
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
+  const handleSelectCategory = (category) => {
+    setCategory(category);
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -78,17 +82,20 @@ function Meals() {
     <>
       <header>
         <h1 className="d-flex justify-content-center">Meals: {category}</h1>
-        <div className="d-flex justify-content-center">
-          <div className="m-4">
+        <div className="d-flex justify-content-center flex-wrap">
+          <div className="m-2 flex-grow-1">
             <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
           </div>
-          <div className="m-4">
+          <div className="m-2">
             <Button onClick={toggleLayout}>
               {isGridLayout ? 'List Layout' : 'Grid Layout'}
             </Button>
           </div>
-          <div className="m-4">
+          <div className="m-2">
             <SortButton onSortChange={handleSortChange} />
+          </div>
+          <div className="m-2">
+            <DropdownMenu onSelectCategory={handleSelectCategory} />
           </div>
         </div>
       </header>

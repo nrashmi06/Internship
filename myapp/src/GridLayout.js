@@ -12,7 +12,7 @@ const GridLayout = ({ items, onImageClick, type }) => {
         } else if (type === 'meals') {
           return <MealsCard key={item.idMeal} meal={item} onImageClick={onImageClick} />;
         } else {
-          return null; // Handle unknown type or other cases if needed
+          return null;
         }
       })}
     </div>

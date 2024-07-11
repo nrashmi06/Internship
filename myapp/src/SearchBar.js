@@ -1,16 +1,17 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 
 const SearchBar = ({ searchTerm, onSearchChange }) => {
   return (
-    <InputGroup >
+    <Form className="search-bar-container">
       <Form.Control
-        placeholder="Search recipes"
+        type="text"
+        placeholder="Search meals"
         value={searchTerm}
         onChange={e => onSearchChange(e.target.value)}
+        className="mr-sm-2"
       />
-    </InputGroup>
+    </Form>
   );
 };
 

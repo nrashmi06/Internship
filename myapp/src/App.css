@@ -76,3 +76,59 @@
   color: red;
   font-size: 12px;
 }
+/* App.css */
+.card-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.card {
+  width: 100%;
+  max-width: 18rem;
+  margin: 1rem;
+}
+
+@media (min-width: 576px) {
+  .card {
+    width: calc(50% - 2rem);
+  }
+}
+
+@media (min-width: 768px) {
+  .card {
+    width: calc(33.333% - 2rem);
+  }
+}
+
+@media (min-width: 992px) {
+  .card {
+    width: calc(25% - 2rem);
+  }
+}
+
+@media (min-width: 1200px) {
+  .card {
+    width: calc(20% - 2rem);
+  }
+}
+
+@media (max-width: 575px) {
+  .search-bar-container {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (min-width: 576px) {
+  .search-bar-container {
+    flex-grow: 1;
+  }
+}
+
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+}
+

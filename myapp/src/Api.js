@@ -1,4 +1,3 @@
-// api.js
 import { BASE_URL, ENDPOINTS } from './apiConfig';
 
 export const fetchRecipes = () => {
