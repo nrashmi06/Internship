@@ -42,12 +42,25 @@ const MealDetail = () => {
                     <p>{meal.strInstructions}</p>
                     <p><strong>Ingredients:</strong></p>
                     <ul>
-                        {Array.from({ length: 20 }, (_, i) => i + 1).map(i => {
-                            const ingredient = meal[`strIngredient${i}`];
-                            const measure = meal[`strMeasure${i}`];
-                            return ingredient ? <li key={i}>{`${measure} ${ingredient}`}</li> : null;
-                        })}
+                        {Object.keys(meal)
+                            .filter(key => key.startsWith('strIngredient') && meal[key])
+                            .map(key => {
+                                const ingredientNum = key.slice(13); // Extract number from key
+                                const measure = meal[`strMeasure${ingredientNum}`];
+                                const ingredient = meal[key];
+            
+                                if (ingredient && measure) {
+                                    return (
+                                        <li key={key}>
+                                            {`${measure} ${ingredient}`}
+                                        </li>
+                                    );
+                                }
+                                return null; 
+                            })
+                        }
                     </ul>
+
                     {meal.strYoutube && <a href={meal.strYoutube} target="_blank" rel="noopener noreferrer">Watch on YouTube</a>}
                 </div>
             ) : (
