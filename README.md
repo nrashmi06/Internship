@@ -96,31 +96,31 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 Sure, here is the README with added breaks between the tasks:
 
 ```markdown
-## Task 1: Learning React
+# Task 1: Learning React
 
 Learn React hooks, prop passing, state, class components, JSX components, event handling, etc.
 
 ---
 
-## Task 2: Login and Signup Page
+# Task 2: Login and Signup Page
 
 Create a login and signup page using React. Add validation for user details.
 
 ---
 
-## Task 3: Dashboard and Navbar
+# Task 3: Dashboard and Navbar
 
 Add a dashboard and navbar using React Bootstrap components. Connect these components to the login page.
 
 ---
 
-## Task 4: Navbar Correction and Recipes API
+# Task 4: Navbar Correction and Recipes API
 
 Correct the navbar and create a page to display recipe categories using the Recipes API. Use `fetch` in React to make API calls.
 
 ---
 
-## Task 5: Features to the Recipe Page
+# Task 5: Features to the Recipe Page
 
 Enhance the recipe page with the following features:
 - List and grid layout.
@@ -134,13 +134,13 @@ Enhance the recipe page with the following features:
 
 ---
 
-## Task 6: Meal Page Addition
+# Task 6: Meal Page Addition
 
 Add a meal page with a search bar delay using a debounce function.
 
 ---
 
-## Task 7: Meals Page Correction and Backend
+# Task 7: Meals Page Correction and Backend
 
 Correct the meals page to show meals when a category is selected. Add a dropdown button to select categories within the meals page. Implement backend for user signup using the MERN stack.
 ```
