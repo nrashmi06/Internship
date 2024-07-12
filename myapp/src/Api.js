@@ -25,3 +25,23 @@ export const fetchMealsByCategory = (category) => {
       return [];
     });
 };
+
+export const fetchMealById = async (id) => {
+  const url = `${BASE_URL}${ENDPOINTS.DETAIL_BY_ID}${id}`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch meal');
+    }
+
+    const data = await response.json();
+    return data.meals[0];
+  } catch (error) {
+    console.error('Error fetching meal:', error);
+    return null; // Handle error gracefully, depending on your application's requirements
+  }
+};
