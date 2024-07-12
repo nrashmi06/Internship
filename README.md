@@ -15,7 +15,10 @@ Welcome to the internship project! This README file provides an overview of the 
 
 ## Introduction
 
-During this internship, the primary goal is to become proficient in React, a popular JavaScript library for building user interfaces. The tasks are designed to help you understand the core concepts of React, including components, props, and hooks, by working through the official React documentation and building practical applications. Along with this I also learnt the Mern 
+During this internship, the primary goal was to gain proficiency in React, a widely used JavaScript library for developing user interfaces. The tasks were structured to provide a comprehensive understanding of React's core concepts such as components, props, and hooks, through practical application and referencing the official React documentation.
+
+Additionally, I also acquired proficiency in the MERN (MongoDB, Express.js, React.js, Node.js) stack. This included learning to build full-stack applications integrating MongoDB as the database, Express.js and Node.js for server-side development, and React.js for the client-side interface, thereby enhancing my skills in both front-end and back-end web development.
+
 
 -----------------------------------------------------------------------------------------------------------------
 ## Project Setup
