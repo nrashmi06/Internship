@@ -6,10 +6,19 @@ Welcome to the internship project! This README file provides an overview of the 
 1. [Introduction](#introduction)
 2. [Project Setup](#project-setup)
 3. [Task 1: Learning React](#task-1-learning-react)
+4. [Task 2: Login and Signup Page](#task-2-login-and-signup-page)
+5. [Task 3: Dashboard and Navbar](#task-3-dashboard-and-navbar)
+6. [Task 4: Navbar Correction and Recipes API](#task-4-navbar-correction-and-recipes-api)
+7. [Task 5: Features to the Recipe Page](#task-5-features-to-the-recipe-page)
+8. [Task 6: Meal Page Addition](#task-6-meal-page-addition)
+9. [Task 7: Meals Page Correction and Backend](#task-7-meals-page-correction-and-backend)
 
 ## Introduction
 
-During this internship, the primary goal is to become proficient in React, a popular JavaScript library for building user interfaces. The tasks are designed to help you understand the core concepts of React, including components, props, and hooks, by working through the official React documentation and building practical applications.
+During this internship, the primary goal was to gain proficiency in React, a widely used JavaScript library for developing user interfaces. The tasks were structured to provide a comprehensive understanding of React's core concepts such as components, props, and hooks, through practical application and referencing the official React documentation.
+
+Additionally, I also acquired proficiency in the MERN (MongoDB, Express.js, React.js, Node.js) stack. This included learning to build full-stack applications integrating MongoDB as the database, Express.js and Node.js for server-side development, and React.js for the client-side interface, thereby enhancing my skills in both front-end and back-end web development.
+
 
 -----------------------------------------------------------------------------------------------------------------
 ## Project Setup
@@ -85,3 +94,54 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+## Task 1: Learning React
+
+Learn React hooks, prop passing, state, class components, JSX components, event handling, etc.
+
+---
+
+## Task 2: Login and Signup Page
+
+Create a login and signup page using React. Add validation for user details.
+
+---
+
+## Task 3: Dashboard and Navbar
+
+Add a dashboard and navbar using React Bootstrap components. Connect these components to the login page.
+
+---
+
+## Task 4: Navbar Correction and Recipes API
+
+Correct the navbar and create a page to display recipe categories using the Recipes API. Use `fetch` in React to make API calls.
+
+---
+
+## Task 5: Features to the Recipe Page
+
+Enhance the recipe page with the following features:
+- List and grid layout.
+- Search bar.
+- Sort button.
+- Separate API calls.
+- URL best practices for base and endpoint.
+- Loading delay using `setTimeout`.
+- Local storage separation.
+- Image toast on click.
+
+---
+
+## Task 6: Meal Page Addition
+
+Add a meal page with a search bar delay using a debounce function.
+
+---
+
+## Task 7: Meals Page Correction and Backend
+
+Correct the meals page to show meals when a category is selected. Add a dropdown button to select categories within the meals page. Implement backend for user signup using the MERN stack.
+
