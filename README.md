@@ -11,7 +11,8 @@ Welcome to the internship project! This README file provides an overview of the 
 6. [Task 4: Navbar Correction and Recipes API](#task-4-navbar-correction-and-recipes-api)
 7. [Task 5: Features to the Recipe Page](#task-5-features-to-the-recipe-page)
 8. [Task 6: Meal Page Addition](#task-6-meal-page-addition)
-9. [Task 7: Meals Page Correction and Backend](#task-7-meals-page-correction-and-backend)
+9. [Task 7: Meals Page Correction and SignUp Backend](#task-7-meals-page-correction-and-signup-backend)
+10.[Task 8: Details Page Addition and Login Backend ](#task-8-details-page-addition-and-login-backend)
 
 ## Introduction
 
@@ -141,7 +142,11 @@ Add a meal page with a search bar delay using a debounce function.
 
 ---
 
-## Task 7: Meals Page Correction and Backend
+## Task 7: Meals Page Correction and SignUp Backend
 
 Correct the meals page to show meals when a category is selected. Add a dropdown button to select categories within the meals page. Implement backend for user signup using the MERN stack.
 
+---
+
+## Task 8: Details Page Addition and Login Backend 
+I implemented a detailed recipe page and login backend for our application. The recipe detail page allows users to view comprehensive information about each recipe, including ingredients, steps, and instruction video. On the backend, I developed a secure login system using Node.js and Express, integrating MongoDB for user data storage. The authentication process includes JWT for token-based authentication and bcrypt for secure password hashing, ensuring that user credentials are safely managed.
