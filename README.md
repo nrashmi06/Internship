@@ -12,7 +12,7 @@ Welcome to the internship project! This README file provides an overview of the 
 7. [Task 5: Features to the Recipe Page](#task-5-features-to-the-recipe-page)
 8. [Task 6: Meal Page Addition](#task-6-meal-page-addition)
 9. [Task 7: Meals Page Correction and SignUp Backend](#task-7-meals-page-correction-and-signup-backend)
-10.[Task 8: Details Page Addition and Login Backend ](#task-8-details-page-addition-and-login-backend)
+10. [Task 8: Details Page Addition and Login Backend ](#task-8-details-page-addition-and-login-backend)
 
 ## Introduction
 
