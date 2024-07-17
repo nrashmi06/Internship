@@ -8,7 +8,6 @@ exports.login = async (req, res) => {
 
     console.log('Login attempt with email:', email);
 
-    // Find the user by email
     const user = await User.findOne({ email });
     if (!user) {
       console.log('User not found');
@@ -17,7 +16,6 @@ exports.login = async (req, res) => {
 
     console.log('User found:', user);
 
-    // Compare the provided password with the stored hashed password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       console.log('Password does not match');
@@ -26,12 +24,10 @@ exports.login = async (req, res) => {
 
     console.log('Password matches');
 
-    // Generate a JWT token
     const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     console.log('JWT generated:', token);
 
-    // Send the user (without password) and the token in the response
     const { password: _, ...userWithoutPassword } = user.toObject();
     res.send({ user: userWithoutPassword, token });
   } catch (error) {
