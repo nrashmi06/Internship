@@ -16,6 +16,9 @@ coverage/
 .idea/
 .vscode/
 dist/
+uploads/
+
+
 
 # Operating system files
 .DS_Store

@@ -22,6 +22,7 @@ function Navbar2({ setAuth }) {
             <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
             <Nav.Link as={Link} to="/recipies">Recipies</Nav.Link>
             <Nav.Link as={Link} to="/meals">Meals</Nav.Link>
+            <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
             <Nav.Link as={Link} to="/login" onClick={handleLogout}>Logout</Nav.Link>
           </Nav>
         </Container>

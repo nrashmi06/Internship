@@ -1,0 +1,22 @@
+.profile-image-container {
+    display: inline-block;
+    border: 4px solid #000000; /* Black border */
+    border-radius: 50%; /* Rounded border to create a circle */
+    padding: 5px;
+    overflow: hidden; /* Ensures content inside the border is clipped to the border's rounded shape */
+}
+
+.profile-image-img {
+    max-width: 100%;
+    height: auto;
+}
+
+.no-image {
+    color: #999999; /* Light gray text color */
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.profile-image-form {
+    margin-top: 10px;
+}

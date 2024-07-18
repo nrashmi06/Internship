@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { setLocalStorageItem } from './LocalStorage'; // Adjust the import path as necessary
 
 const Login = ({ setAuth }) => {
   const [email, setEmail] = useState('');
@@ -12,16 +13,15 @@ const Login = ({ setAuth }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      console.log('Login attempt with email:', email)
-      const response = await fetch('api/users/login', {
-        
+      console.log('Login attempt with email:', email);
+      const response = await fetch('/api/users/login', {
         method: 'POST', // Use POST method
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }), // Send email and password in request body
       });
-      console.log('response:', response);
+      console.log('Response:', response);
 
       if (!response.ok) {
         throw new Error('Login failed');
@@ -31,15 +31,14 @@ const Login = ({ setAuth }) => {
       console.log('Login successful:', data);
 
       const token = data.token;
+      setLocalStorageItem('token', token); // Store token in local storage
 
-      localStorage.setItem('token', token); 
+      setAuth(true); // Update authentication state
 
-      setAuth(true);
-
-      navigate('/dashboard');
+      navigate('/dashboard'); // Redirect to the dashboard
     } catch (error) {
       console.error('Login error:', error);
-      setError('Invalid email or password'); 
+      setError('Invalid email or password'); // Display error message
     }
   };
 
