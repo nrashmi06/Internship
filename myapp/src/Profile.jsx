@@ -48,7 +48,6 @@ const Profile = () => {
     }, []);
 
     useEffect(() => {
-        // Function to clear update messages after 2 seconds
         const clearMessages = () => {
             const timeout = setTimeout(() => {
                 setUpdateMessage('');

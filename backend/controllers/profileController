@@ -1,7 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModels');
 
-// Get User Profile
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (!user) {
@@ -18,7 +17,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
   });
 });
 
-// Update Profile Image
 const updateProfileImage = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (!user) {
@@ -28,7 +26,6 @@ const updateProfileImage = asyncHandler(async (req, res) => {
 
   try {
     if (req.file) {
-      // Save the path to the uploaded image
       user.profileImage = `uploads/${req.file.filename}`;
     } else {
       throw new Error('Please upload an image file.');

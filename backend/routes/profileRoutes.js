@@ -1,7 +1,7 @@
 const express = require('express');
 const { getUserProfile, updateProfileImage } = require('../controllers/profileController');
 const auth = require('../middleware/authMiddleware');
-const upload = require('../middleware/multerMiddleware'); // Correct path to multerMiddleware
+const upload = require('../middleware/multerMiddleware'); 
 
 const router = express.Router();
 
