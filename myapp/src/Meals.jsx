@@ -9,7 +9,6 @@ import GridLayout from './GridLayout';
 import ListLayout from './ListLayout';
 import { fetchMealsByCategory } from './Api';
 import DropdownMenu from './DropdownMenu';
-import { getLocalStorageItem, setLocalStorageItem } from './LocalStorage'; // Import the utility functions
 
 function Meals() {
   const { category: categoryParam } = useParams();
@@ -24,15 +23,6 @@ function Meals() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
 
-  // Load layout preference from local storage
-  useEffect(() => {
-    const savedLayout = getLocalStorageItem('mealsLayout');
-    if (savedLayout) {
-      setIsGridLayout(savedLayout === 'grid');
-    }
-  }, []);
-
-  // Fetch meals for the selected category
   useEffect(() => {
     setLoading(true);
     const currentCategory = categoryParam || category;
@@ -50,7 +40,6 @@ function Meals() {
       });
   }, [categoryParam, category]);
 
-  // Filter meals based on search term
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       const filtered = meals.filter(meal =>
@@ -62,24 +51,15 @@ function Meals() {
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm, meals]);
 
-  // Handle image click
   const handleImageClick = image => {
     setToastImage(image);
     setShowToast(true);
   };
 
-  // Toggle toast visibility
   const toggleShowToast = () => setShowToast(!showToast);
 
-  // Toggle between grid and list layout
-  const toggleLayout = () => {
-    const newLayout = !isGridLayout;
-    setIsGridLayout(newLayout);
-    setLocalStorageItem('mealsLayout', newLayout ? 'grid' : 'list');
-    console.log('Layout saved to local storage:', newLayout ? 'grid' : 'list'); // Debug statement
-  };
+  const toggleLayout = () => setIsGridLayout(!isGridLayout);
 
-  // Handle sort change
   const handleSortChange = () => {
     const sorted = [...filteredMeals].sort((a, b) => {
       if (sortOrder === 'asc') {
@@ -92,7 +72,6 @@ function Meals() {
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
-  // Handle category selection from dropdown menu
   const handleSelectCategory = (category) => {
     setCategory(category);
     navigate(`/meals/${category}`);
@@ -112,7 +91,7 @@ function Meals() {
           </div>
           <div className="m-2">
             <Button onClick={toggleLayout}>
-              {isGridLayout ? <i className="bi bi-distribute-vertical"></i> : <i className="bi bi-distribute-horizontal"></i>}
+              {isGridLayout ?  <i className="bi bi-distribute-vertical"></i>: <i className="bi bi-distribute-horizontal"></i>}
             </Button>
           </div>
           <div className="m-2">

@@ -21,7 +21,11 @@ const userSchema = mongoose.Schema(
     },
     profileImage: {
       type: String,
-      default: 'uploads/default.png', 
+      default: 'uploads/default.png',
+    },
+    favorites: {
+      type: [String], 
+      default: [],
     },
   },
   {

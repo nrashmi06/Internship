@@ -45,3 +45,17 @@ export const fetchMealById = async (id) => {
     return null; // Handle error gracefully, depending on your application's requirements
   }
 };
+// Api.js
+export const getProfile = async (token) => {
+  const response = await fetch('/api/users/profile', {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch profile');
+  }
+
+  return response.json();
+};
