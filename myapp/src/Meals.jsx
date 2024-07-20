@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import ImageToast from './ImageToast';
 import Loading from './Loading';
@@ -9,9 +9,11 @@ import GridLayout from './GridLayout';
 import ListLayout from './ListLayout';
 import { fetchMealsByCategory } from './Api';
 import DropdownMenu from './DropdownMenu';
+import { getLocalStorageItem, setLocalStorageItem } from './LocalStorage'; // Import the utility functions
 
 function Meals() {
   const { category: categoryParam } = useParams();
+  const navigate = useNavigate();
   const [category, setCategory] = useState(categoryParam || 'Seafood');
   const [meals, setMeals] = useState([]);
   const [filteredMeals, setFilteredMeals] = useState([]);
@@ -22,22 +24,33 @@ function Meals() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
 
+  // Load layout preference from local storage
   useEffect(() => {
-    setLoading(true); 
-    console.log('Fetching meals for category:', category);
-    
-    fetchMealsByCategory(category)
+    const savedLayout = getLocalStorageItem('mealsLayout');
+    if (savedLayout) {
+      setIsGridLayout(savedLayout === 'grid');
+    }
+  }, []);
+
+  // Fetch meals for the selected category
+  useEffect(() => {
+    setLoading(true);
+    const currentCategory = categoryParam || category;
+    console.log('Fetching meals for category:', currentCategory);
+
+    fetchMealsByCategory(currentCategory)
       .then(data => {
         setMeals(data);
         setFilteredMeals(data);
-        setLoading(false); 
+        setLoading(false);
       })
       .catch(error => {
         console.error('Error fetching meals:', error);
         setLoading(false);
       });
-  }, [category]);
+  }, [categoryParam, category]);
 
+  // Filter meals based on search term
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       const filtered = meals.filter(meal =>
@@ -49,15 +62,24 @@ function Meals() {
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm, meals]);
 
+  // Handle image click
   const handleImageClick = image => {
     setToastImage(image);
     setShowToast(true);
   };
 
+  // Toggle toast visibility
   const toggleShowToast = () => setShowToast(!showToast);
 
-  const toggleLayout = () => setIsGridLayout(!isGridLayout);
+  // Toggle between grid and list layout
+  const toggleLayout = () => {
+    const newLayout = !isGridLayout;
+    setIsGridLayout(newLayout);
+    setLocalStorageItem('mealsLayout', newLayout ? 'grid' : 'list');
+    console.log('Layout saved to local storage:', newLayout ? 'grid' : 'list'); // Debug statement
+  };
 
+  // Handle sort change
   const handleSortChange = () => {
     const sorted = [...filteredMeals].sort((a, b) => {
       if (sortOrder === 'asc') {
@@ -70,8 +92,10 @@ function Meals() {
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
+  // Handle category selection from dropdown menu
   const handleSelectCategory = (category) => {
     setCategory(category);
+    navigate(`/meals/${category}`);
   };
 
   if (loading) {
@@ -88,7 +112,7 @@ function Meals() {
           </div>
           <div className="m-2">
             <Button onClick={toggleLayout}>
-              {isGridLayout ? 'List Layout' : 'Grid Layout'}
+              {isGridLayout ? <i className="bi bi-distribute-vertical"></i> : <i className="bi bi-distribute-horizontal"></i>}
             </Button>
           </div>
           <div className="m-2">

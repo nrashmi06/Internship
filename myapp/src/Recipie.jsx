@@ -8,6 +8,7 @@ import GridLayout from './GridLayout';
 import ListLayout from './ListLayout';
 import SearchBar from './SearchBar';
 import SortButton from './SortButton';
+import { getLocalStorageItem, setLocalStorageItem } from './LocalStorage';  // Import the utility functions
 
 function Recipie() {
   const [recipes, setRecipes] = useState([]);
@@ -19,6 +20,16 @@ function Recipie() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
 
+  // Load layout preference from local storage
+  useEffect(() => {
+    const savedLayout = getLocalStorageItem('layout');
+    console.log('Saved layout from local storage:', savedLayout); 
+    if (savedLayout) {
+      setIsGridLayout(savedLayout === 'grid');
+    }
+  }, []);
+
+  // Fetch recipes and set state
   useEffect(() => {
     fetchRecipes(ENDPOINTS.CATEGORIES)
       .then(data => {
@@ -32,6 +43,7 @@ function Recipie() {
       });
   }, []);
 
+  // Filter recipes based on search term
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       const filtered = recipes.filter(recipe =>
@@ -50,7 +62,12 @@ function Recipie() {
 
   const toggleShowToast = () => setShowToast(!showToast);
 
-  const toggleLayout = () => setIsGridLayout(!isGridLayout);
+  const toggleLayout = () => {
+    const newLayout = !isGridLayout;
+    setIsGridLayout(newLayout);
+    setLocalStorageItem('layout', newLayout ? 'grid' : 'list');
+    console.log('Layout saved to local storage:', newLayout ? 'grid' : 'list'); // Debug statement
+  };
 
   const handleSortChange = () => {
     const sorted = [...filteredRecipes].sort((a, b) => {
@@ -78,7 +95,7 @@ function Recipie() {
           </div>
           <div className='m-4'>
             <Button onClick={toggleLayout}>
-              {isGridLayout ? 'List Layout' : 'Grid Layout'}
+              {isGridLayout ? <i className="bi bi-distribute-vertical"></i> : <i className="bi bi-distribute-horizontal"></i>}
             </Button>
           </div>
           <div className='m-4'>
