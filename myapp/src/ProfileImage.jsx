@@ -1,19 +1,33 @@
 import React, { useState } from 'react';
 import { getLocalStorageItem } from './LocalStorage';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import './ProfileImage.css';
 
 const ProfileImage = ({ profileImage, setProfileImage, setUpdateMessage, setUpdateError }) => {
     const [file, setFile] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [preview, setPreview] = useState('');
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         setFile(file);
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreview(reader.result);
+                setShowModal(true);  // Show the modal when a file is selected
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setPreview('');
+        }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleCloseModal = () => setShowModal(false);
 
+    const handleSubmit = async () => {
         try {
             const token = getLocalStorageItem('token');
 
@@ -43,9 +57,11 @@ const ProfileImage = ({ profileImage, setProfileImage, setUpdateMessage, setUpda
             const data = await response.json();
             setUpdateMessage('Profile image updated successfully');
             setProfileImage(data.profileImage);
+            handleCloseModal();
         } catch (error) {
             console.error('Error updating profile image:', error.message);
             setUpdateError('Failed to update profile image');
+            handleCloseModal();
         }
     };
 
@@ -58,14 +74,42 @@ const ProfileImage = ({ profileImage, setProfileImage, setUpdateMessage, setUpda
             ) : (
                 <div className="no-image">No profile image available</div>
             )}
-            <Form onSubmit={handleSubmit} className="profile-image-form">
-                <Form.Group controlId="formFile" className="mb-3">
-                    <Form.Control type="file" accept="image/*" onChange={handleFileChange} />
-                </Form.Group>
-                <Button variant="primary" type="submit">
-                    Update Profile Image
-                </Button>
-            </Form>
+            <div>
+                <label htmlFor="file-upload" className="camera-icon-label">
+                    <i className="bi bi-camera camera-icon"></i>
+                </label>
+                <input
+                    id="file-upload"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    style={{ display: 'none' }}
+                />
+            </div>
+
+            <Modal show={showModal} onHide={handleCloseModal} dialogClassName="modal-50vh-50vw">
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirm Update</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {preview ? (
+                        <div>
+                            <img src={preview} alt="Preview" className="img-preview" />
+                            <p>Are you sure you want to update your profile image?</p>
+                        </div>
+                    ) : (
+                        <p>No image selected.</p>
+                    )}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseModal}>
+                        Cancel
+                    </Button>
+                    <Button variant="primary" onClick={handleSubmit}>
+                        Confirm
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 };

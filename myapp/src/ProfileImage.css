@@ -20,3 +20,25 @@
 .profile-image-form {
     margin-top: 10px;
 }
+.camera-icon-label {
+    cursor: pointer;
+}
+
+.camera-icon {
+    font-size: 2rem; /* Increase the size of the icon */
+    font-weight: bold; /* Make the icon bold */
+}
+
+.modal-50vh-50vw .modal-dialog {
+    width: 50vw; /* Set the modal width to 50vw */
+    height: 50vh; /* Set the modal height to 50vh */
+    max-width: none; /* Remove max-width restriction */
+    max-height: none; /* Remove max-height restriction */
+    margin: auto; /* Center the modal in the viewport */
+}
+
+.img-preview {
+    width: 40vw; /* Set the image width to 40vw */
+    height: 40vh; /* Set the image height to 40vh */
+    object-fit: cover; /* Ensure the image maintains aspect ratio and covers the area */
+}
