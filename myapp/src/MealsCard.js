@@ -3,31 +3,40 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { getLocalStorageItem, setLocalStorageItem } from './LocalStorage';
 
-// Ensure you replace these URLs with your actual API endpoints
 const API_BASE_URL = '/api/users/profile/favorites';
 
 const MealsCard = ({ meal, onImageClick, fullWidth }) => {
   const [isFavorited, setIsFavorited] = useState(false);
-  const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [notification, setNotification] = useState('');
 
   useEffect(() => {
-    // Fetch favorites from local storage
     const storedFavorites = getLocalStorageItem('favorites') || [];
-    setFavorites(storedFavorites.map(id => id.toString()));
-  }, []); // Empty dependency array ensures this runs only once
-
-  useEffect(() => {
-    if (meal) {
-      const mealId = meal.idMeal.toString();
-      setIsFavorited(favorites.includes(mealId));
-    }
-  }, [meal, favorites]); // Run whenever `meal` or `favorites` changes
+    setIsFavorited(storedFavorites.includes(meal?.idMeal.toString()));
+  }, [meal]);
 
   const handleClick = () => {
     window.location.href = `/meal/${meal.idMeal}`;
   };
 
   const toggleFavorite = async () => {
+    const mealId = meal.idMeal.toString();
+    setLoading(true);
+
+    const storedFavorites = getLocalStorageItem('favorites') || [];
+    let updatedFavorites;
+
+    if (storedFavorites.includes(mealId)) {
+      updatedFavorites = storedFavorites.filter(id => id !== mealId);
+      setNotification('Removed from favorites');
+    } else {
+      updatedFavorites = [...storedFavorites, mealId];
+      setNotification('Added to favorites');
+    }
+
+    setLocalStorageItem('favorites', updatedFavorites);
+    setIsFavorited(!isFavorited);
+
     try {
       const token = getLocalStorageItem('token');
       if (!token) {
@@ -35,21 +44,6 @@ const MealsCard = ({ meal, onImageClick, fullWidth }) => {
         return;
       }
 
-      const mealId = meal.idMeal.toString();
-      let updatedFavorites = [...favorites];
-
-      if (isFavorited) {
-        // Remove from favorites
-        updatedFavorites = updatedFavorites.filter(id => id !== mealId);
-      } else {
-        // Add to favorites
-        updatedFavorites.push(mealId);
-      }
-
-      // Update local storage with new favorites
-      setLocalStorageItem('favorites', updatedFavorites);
-
-      // Make API request to update the server
       const method = isFavorited ? 'DELETE' : 'POST';
       const response = await fetch(API_BASE_URL, {
         method,
@@ -57,18 +51,24 @@ const MealsCard = ({ meal, onImageClick, fullWidth }) => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ mealId }), // Ensure body is correctly formatted
+        body: JSON.stringify({ mealId }),
       });
 
-      if (response.ok) {
-        // Update state only if API request is successful
-        setFavorites(updatedFavorites); // Update state
-        setIsFavorited(!isFavorited); // Toggle favorite state
-      } else {
-        console.error('Failed to update favorite on server');
+      if (!response.ok) {
+        throw new Error('Failed to update favorite on server');
       }
     } catch (error) {
       console.error('Failed to toggle favorite', error);
+
+      const revertedFavorites = isFavorited
+        ? [...updatedFavorites, mealId]
+        : updatedFavorites.filter(id => id !== mealId);
+
+      setLocalStorageItem('favorites', revertedFavorites);
+      setIsFavorited(isFavorited);
+    } finally {
+      setLoading(false);
+      setTimeout(() => setNotification(''), 1000);
     }
   };
 
@@ -105,19 +105,19 @@ const MealsCard = ({ meal, onImageClick, fullWidth }) => {
           }}
         />
         <i
-          className={`bi ${isFavorited ? 'bi-suit-heart-fill text-danger' : 'bi-suit-heart'}`}
+          className={`bi ${isFavorited ? 'bi-suit-heart-fill text-danger' : 'bi-suit-heart'} ${loading ? 'text-muted' : ''}`}
           style={{
             position: 'absolute',
             top: '10px',
             right: '10px',
             fontSize: '1rem',
-            cursor: 'pointer',
+            cursor: loading ? 'default' : 'pointer',
             backgroundColor: 'white',
             borderRadius: '50%',
             padding: '5px',
             boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
           }}
-          onClick={toggleFavorite}
+          onClick={loading ? undefined : toggleFavorite}
         ></i>
       </div>
       <Card.Body>
@@ -128,6 +128,21 @@ const MealsCard = ({ meal, onImageClick, fullWidth }) => {
           </Button>
         </div>
       </Card.Body>
+      {notification && (
+        <div style={{
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+          backgroundColor: '#444',
+          color: '#fff',
+          padding: '5px 10px',
+          borderRadius: '5px',
+          zIndex: 1000,
+          opacity: 0.8,
+        }}>
+          {notification}
+        </div>
+      )}
     </Card>
   );
 };
