@@ -1,0 +1,17 @@
+/* styles.css or a corresponding CSS module */
+.search-bar-container {
+    margin:auto; /* Add margin around the container */
+    max-width: 500px; /* Set a maximum width */
+    width: 100%; /* Make it responsive */
+    display: flex;
+    justify-content: flex-start; /* Align items to the left */
+  }
+  
+  .search-bar {
+    width: 100%; /* Make the search bar fill the container */
+    padding: 10px; /* Add padding inside the search bar */
+    border: 1px solid #ddd; /* Add a border */
+    border-radius: 4px; /* Round the corners */
+    font-size: 16px; /* Adjust font size */
+  }
+  

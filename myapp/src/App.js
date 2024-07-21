@@ -11,6 +11,7 @@ import Recipie from './Recipie';
 import Meals from './Meals';
 import Profile from './Profile';
 import MealDetail from './MealDetail';
+import CartPage from './CartPage';
 import { getLocalStorageItem, setLocalStorageItem } from './LocalStorage'; 
 
 
@@ -41,6 +42,7 @@ function App() {
         <Route path="/meals" element={auth ? <Meals /> : <Navigate to="/" />} /> 
         <Route path="/meal/:mealId" element={auth ? <MealDetail /> : <Navigate to="/" />} />
         <Route path="/profile" element={auth ? <Profile /> : <Navigate to="/" />} />
+        <Route path="/cart" element={auth ? <CartPage /> : <Navigate to="/" />} />
         <Route path="*" element={<Navigate to={auth ? "/dashboard" : "/"} />} />
       </Routes>
     </>

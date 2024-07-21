@@ -89,9 +89,10 @@ const MealsCard = ({ meal, onImageClick, fullWidth }) => {
         flexDirection: 'column',
         boxSizing: 'border-box',
         position: 'relative',
+        overflow: 'hidden', // Ensures content does not overflow the card boundaries
       }}
     >
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative', flex: 1 }}>
         <Card.Img
           variant="top"
           src={meal.strMealThumb || ''}
@@ -99,7 +100,7 @@ const MealsCard = ({ meal, onImageClick, fullWidth }) => {
           onClick={() => onImageClick(meal.strMealThumb)}
           style={{
             cursor: 'pointer',
-            height: fullWidth ? 'auto' : 'auto',
+            height: 'auto',
             width: '100%',
             objectFit: 'cover',
           }}
@@ -120,7 +121,7 @@ const MealsCard = ({ meal, onImageClick, fullWidth }) => {
           onClick={loading ? undefined : toggleFavorite}
         ></i>
       </div>
-      <Card.Body>
+      <Card.Body style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <Card.Title className="text-center">{meal.strMeal}</Card.Title>
         <div className="d-flex justify-content-center mt-2">
           <Button variant="primary" onClick={handleClick}>

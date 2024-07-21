@@ -1,18 +1,18 @@
 import React from 'react';
-import Form from 'react-bootstrap/Form';
+import './SearchBar.css'; // Import your CSS file
 
-const SearchBar = ({ searchTerm, onSearchChange }) => {
+function SearchBar({ searchTerm, onSearchChange }) {
   return (
-    <Form className="search-bar-container">
-      <Form.Control
+    <div className="search-bar-container">
+      <input
         type="text"
-        placeholder="Search meals"
         value={searchTerm}
         onChange={e => onSearchChange(e.target.value)}
-        className="mr-sm-2"
+        className="search-bar"
+        placeholder="Search for meals..."
       />
-    </Form>
+    </div>
   );
-};
+}
 
 export default SearchBar;

@@ -1,0 +1,23 @@
+/* Ensure that the navbar occupies the full width */
+.navbar {
+    margin-bottom: 20px;
+  }
+  
+  .navbar-nav {
+    flex-direction: row;
+    margin-left: auto; /* Pushes the navigation items to the right */
+  }
+  
+  .nav-link {
+    font-size: 1rem;
+    margin-left: 15px; /* Space between links */
+  }
+  
+  .navbar-toggler {
+    border: none;
+  }
+  
+  .container-fluid {
+    padding: 0 15px; /* Adjust padding as needed */
+  }
+  

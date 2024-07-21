@@ -1,0 +1,43 @@
+/* Ensuring header spacing and alignment */
+header {
+    padding: 10px;
+    margin-bottom: 20px; /* Space below the header */
+   
+  }
+  
+  .text-center {
+    margin-bottom: 20px; /* Space between the title and controls */
+  }
+  
+  /* Container for SearchBar */
+  .search-bar-container {
+    flex: 1;
+  }
+  
+  /* Container for buttons */
+  .button-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Equal spacing between buttons */
+    margin-right: auto;
+  }
+  
+  /* Adjust button spacing */
+  .button-container > * {
+    margin: 0; /* Remove default margin */
+  }
+  
+  /* Centered Toast Styling */
+.custom-toast {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8d7da; /* Red background color */
+    color: #721c24; /* Dark red text color */
+  }
+  
+  .custom-toast .toast-body {
+    color: #721c24; /* Dark red text color */
+  }
+  

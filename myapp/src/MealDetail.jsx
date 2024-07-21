@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMealById } from './Api';
+import Loading from './Loading'; // Import the Loading component
 import './MealDetail.css'; 
 
 const MealDetail = () => {
@@ -27,7 +28,7 @@ const MealDetail = () => {
         fetchData();
     }, [mealId]);
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <Loading />; // Use Loading component
     if (error) return <p>{error}</p>;
 
     return (

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
+import Toast from 'react-bootstrap/Toast';
 import ImageToast from './ImageToast';
 import Loading from './Loading';
 import SearchBar from './SearchBar';
@@ -9,6 +10,8 @@ import GridLayout from './GridLayout';
 import ListLayout from './ListLayout';
 import { fetchMealsByCategory } from './Api';
 import DropdownMenu from './DropdownMenu';
+import { getLocalStorageItem, setLocalStorageItem } from './LocalStorage';
+import './Meals.css';
 
 function Meals() {
   const { category: categoryParam } = useParams();
@@ -19,9 +22,19 @@ function Meals() {
   const [showToast, setShowToast] = useState(false);
   const [toastImage, setToastImage] = useState('');
   const [loading, setLoading] = useState(true);
-  const [isGridLayout, setIsGridLayout] = useState(true);
+  const [isGridLayout, setIsGridLayout] = useState(true); // Default value
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
+  const [showFavorites, setShowFavorites] = useState(false);
+  const [showNoneToast, setShowNoneToast] = useState(false);
+
+  // Fetch layout state from local storage on component mount
+  useEffect(() => {
+    const storedLayout = getLocalStorageItem('isGridLayout');
+    if (storedLayout) {
+      setIsGridLayout(storedLayout === 'true');
+    }
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -58,7 +71,11 @@ function Meals() {
 
   const toggleShowToast = () => setShowToast(!showToast);
 
-  const toggleLayout = () => setIsGridLayout(!isGridLayout);
+  const toggleLayout = () => {
+    const newLayout = !isGridLayout;
+    setIsGridLayout(newLayout);
+    setLocalStorageItem('isGridLayout', newLayout ? 'true' : 'false');
+  };
 
   const handleSortChange = () => {
     const sorted = [...filteredMeals].sort((a, b) => {
@@ -77,6 +94,25 @@ function Meals() {
     navigate(`/meals/${category}`);
   };
 
+  const handleShowFavorites = () => {
+    const favoriteIds = getLocalStorageItem('favorites') || [];
+    const favoriteMeals = meals.filter(meal => favoriteIds.includes(meal.idMeal.toString()));
+
+    if (favoriteMeals.length === 0) {
+      setFilteredMeals([]);
+      setShowNoneToast(true); // Show toast when no favorites are present
+    } else {
+      setFilteredMeals(favoriteMeals);
+      setShowNoneToast(false);
+    }
+    setShowFavorites(true);
+  };
+
+  const handleShowAllMeals = () => {
+    setFilteredMeals(meals);
+    setShowFavorites(false);
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -84,29 +120,34 @@ function Meals() {
   return (
     <>
       <header>
-        <h1 className="d-flex justify-content-center">Meals: {category}</h1>
-        <div className="d-flex justify-content-center flex-wrap">
-          <div className="m-2 flex-grow-1">
+        <h1 className="text-center">Meals: {category}</h1>
+        <div className="contain-button d-flex justify-content-between align-items-center flex-wrap">
+          <div className="search-bar-container flex-grow-1">
             <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
           </div>
-          <div className="m-2">
-            <Button onClick={toggleLayout}>
-              {isGridLayout ?  <i className="bi bi-distribute-vertical"></i>: <i className="bi bi-distribute-horizontal"></i>}
+          <div className="button-container d-flex align-items-center">
+            <Button onClick={toggleLayout} className="m-2">
+              {isGridLayout ? <i className="bi bi-distribute-vertical"></i> : <i className="bi bi-distribute-horizontal"></i>}
             </Button>
-          </div>
-          <div className="m-2">
-            <SortButton onSortChange={handleSortChange} />
-          </div>
-          <div className="m-2">
-            <DropdownMenu onSelectCategory={handleSelectCategory} />
+            <SortButton onSortChange={handleSortChange} className="m-2" />
+            <DropdownMenu onSelectCategory={handleSelectCategory} className="m-2" />
+            <Button onClick={showFavorites ? handleShowAllMeals : handleShowFavorites} className="m-2">
+              <i className="bi bi-cart2"></i>
+            </Button>
           </div>
         </div>
       </header>
-      {isGridLayout ? (
+
+      {filteredMeals.length === 0 && showFavorites ? (
+        <Toast show={showNoneToast} onClose={() => setShowNoneToast(false)} className="custom-toast">
+          <Toast.Body>No favorites available for this category.</Toast.Body>
+        </Toast>
+      ) : isGridLayout ? (
         <GridLayout items={filteredMeals} onImageClick={handleImageClick} type="meals" />
       ) : (
         <ListLayout items={filteredMeals} onImageClick={handleImageClick} type="meals" />
       )}
+
       <ImageToast
         showToast={showToast}
         toggleShowToast={toggleShowToast}
