@@ -1,0 +1,26 @@
+/* Styles for CartPage */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+  
+  .layout-toggle-button {
+    margin-bottom: 20px;
+  }
+  
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .header h1 {
+    margin-bottom: 10px;
+  }
+  
+  .header button {
+    margin-bottom: 20px;
+  }
+  
