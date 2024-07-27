@@ -65,6 +65,23 @@ const CommentSection = ({ mealId }) => {
         }
     };
 
+    const handleCommentDelete = async (commentId) => {
+        if (window.confirm('Are you sure you want to delete this comment?')) {
+            try {
+                await axios.delete(`/api/users/comments/${commentId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+                setComments(prevComments => prevComments.filter(comment => comment._id !== commentId));
+            } catch (err) {
+                console.error('Error deleting comment:', err);
+                setError('Error deleting comment');
+            }
+        }
+    };
+
     return (
         <div className="comment-section-container">
             <h2>Comments</h2>
@@ -84,11 +101,26 @@ const CommentSection = ({ mealId }) => {
                 ) : (
                     comments.map(comment => (
                         <li key={comment._id} className="comment-section-item">
-                            <img src={`http://localhost:3000/${comment.profileImage}`} alt={comment.name} className="comment-section-profile-image" />
+                            <img 
+                                src={`http://localhost:3000/${comment.profileImage}`} 
+                                alt={comment.name} 
+                                className="comment-section-profile-image" 
+                            />
                             <div className="comment-section-content">
                                 <p className="comment-section-author"><strong>{comment.name}</strong></p>
                                 <p className="comment-section-text">{comment.text}</p>
+                                <p className="comment-section-timestamp">
+                                    {new Date(comment.createdAt).toLocaleString()}
+                                </p>
                             </div>
+                            {String(comment.userId) === String(userProfile._id) && (
+                                <i
+                                    className="bi bi-trash"
+                                    onClick={() => handleCommentDelete(comment._id)}
+                                    style={{ cursor: 'pointer', color: 'red', marginLeft: '10px' }}
+                                    title="Delete Comment"
+                                ></i>
+                            )}
                         </li>
                     ))
                 )}
