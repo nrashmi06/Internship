@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getLocalStorageItem } from './LocalStorage';
 import { Button, Modal } from 'react-bootstrap';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -9,10 +9,7 @@ const ProfileImage = ({ profileImage, setProfileImage, setUpdateMessage, setUpda
     const [showModal, setShowModal] = useState(false);
     const [preview, setPreview] = useState('');
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        setFile(file);
-
+    useEffect(() => {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
@@ -23,6 +20,11 @@ const ProfileImage = ({ profileImage, setProfileImage, setUpdateMessage, setUpda
         } else {
             setPreview('');
         }
+    }, [file]);
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        setFile(file);
     };
 
     const handleCloseModal = () => setShowModal(false);
@@ -57,11 +59,36 @@ const ProfileImage = ({ profileImage, setProfileImage, setUpdateMessage, setUpda
             const data = await response.json();
             setUpdateMessage('Profile image updated successfully');
             setProfileImage(data.profileImage);
+            await updateCommentsProfileImage(data.profileImage); // Update comments with new profile image
             handleCloseModal();
         } catch (error) {
             console.error('Error updating profile image:', error.message);
             setUpdateError('Failed to update profile image');
             handleCloseModal();
+        }
+    };
+
+    const updateCommentsProfileImage = async (newProfileImage) => {
+        try {
+            const token = getLocalStorageItem('token');
+            const response = await fetch('/api/users/update-profile-image', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ newProfileImage })
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            
+            const data = await response.json();
+            setUpdateMessage('Comments updated with new profile image successfully');
+        } catch (error) {
+            console.error('Error updating comments profile image:', error.message);
+            setUpdateError('Failed to update comments profile image');
         }
     };
 

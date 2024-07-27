@@ -3,12 +3,14 @@ import { useParams } from 'react-router-dom';
 import { fetchMealById } from './Api';
 import Loading from './Loading'; // Import the Loading component
 import './MealDetail.css'; 
+import CommentSection from './commentSection'; // Import the CommentSection component
 
 const MealDetail = () => {
     const { mealId } = useParams();
     const [meal, setMeal] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const userId = localStorage.getItem('userId'); // Fetch userId from local storage
 
     useEffect(() => {
         const fetchData = async () => {
@@ -63,6 +65,8 @@ const MealDetail = () => {
                     </ul>
 
                     {meal.strYoutube && <a href={meal.strYoutube} target="_blank" rel="noopener noreferrer">Watch on YouTube</a>}
+
+                    <CommentSection mealId={mealId} /> {/* Pass mealId to CommentSection */}
                 </div>
             ) : (
                 <p>No meal selected.</p>

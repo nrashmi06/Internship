@@ -4,6 +4,7 @@ const User = require('../models/userModels');
 const auth = async (req, res, next) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
+    console.log('token recieved :', token);
     if (!token) {
       throw new Error('Authorization token not found');
     }

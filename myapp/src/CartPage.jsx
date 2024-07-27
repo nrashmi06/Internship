@@ -17,10 +17,12 @@ const CartPage = () => {
       setLoading(true);
       setError(null);
       try {
+        console.log('Fetching favorite meals');
         const favoriteIds = getLocalStorageItem('favorites') || [];
         const favoriteMeals = await Promise.all(
           favoriteIds.map(id => fetchMealById(id))
         );
+        console.log('Favorite meals:', favoriteMeals);
         setFavorites(favoriteMeals);
       } catch (err) {
         setError('Error fetching favorite meals');
@@ -35,7 +37,7 @@ const CartPage = () => {
   const toggleLayout = () => {
     const newLayout = !isGridLayout;
     setIsGridLayout(newLayout);
-    setLocalStorageItem('isGridLayout', newLayout ? 'true' : 'false');
+    setLocalStorageItem('isGridLayout', newLayout);
   };
 
   if (loading) return <Loading />;
