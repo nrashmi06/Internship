@@ -4,12 +4,14 @@ import { Navbar, Container, Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { AiFillHome, AiOutlineUnorderedList, AiOutlineUser, AiOutlineLogout } from 'react-icons/ai';
 import { FaUtensils, FaShoppingCart } from 'react-icons/fa'; // Import the cart icon
+import { clearTokens } from './LocalStorage';
 import './Navbar2.css';
 
 function Navbar2({ setAuth }) { 
   const navigate = useNavigate();
   
   const handleLogout = () => {
+    clearTokens();
     alert("You have been logged out");
     setAuth(false);
     navigate('/login');
@@ -23,7 +25,7 @@ function Navbar2({ setAuth }) {
         <Navbar.Brand as={Link} to="/">Navbar</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-auto d-flex flex-row">
+          <Nav className="ml-auto navbar-nav">
             <Nav.Link as={Link} to="/dashboard" className="d-flex align-items-center">
               <AiFillHome style={iconStyle} />
               <span>Home</span>
