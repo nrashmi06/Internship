@@ -1,4 +1,4 @@
-import { BASE_URL,ENDPOINTS,API_BASE_URL, API_ENDPOINTS } from './apiConfig';
+import { BASE_URL, ENDPOINTS, API_BASE_URL, API_ENDPOINTS } from './apiConfig';
 import { getAccessToken, getRefreshToken, setAccessToken, setRefreshToken, clearTokens } from './LocalStorage';
 
 export const fetchWithToken = async (url, options = {}) => {
@@ -49,6 +49,7 @@ export const refreshAccessToken = async () => {
 
     const data = await response.json();
     setAccessToken(data.accessToken);
+    console.log('New access token:', data.accessToken);
     return data;
   } catch (error) {
     console.error('Error refreshing token:', error);
@@ -111,4 +112,33 @@ export const fetchMealById = async (id) => {
     console.error('Error fetching meal:', error);
     return null; 
   }
+};
+
+export const updateProfileImage = async (formData) => {
+  const response = await fetchWithToken(`${API_BASE_URL}${API_ENDPOINTS.UPDATE_PROFILE_IMAGE}`, {
+    method: 'PUT',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update profile image');
+  }
+
+  return response.json();
+};
+
+export const updateCommentsProfileImage = async (newProfileImage) => {
+  const response = await fetchWithToken(`${API_BASE_URL}${API_ENDPOINTS.UPDATE_COMMENTS_PROFILE_IMAGE}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ newProfileImage }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update comments profile image');
+  }
+
+  return response.json();
 };

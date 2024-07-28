@@ -15,9 +15,11 @@ export const API_BASE_URL = '/api';
 
 // Define endpoints for your own API
 export const API_ENDPOINTS = {
-  PROFILE: '/users/profile',                         // Endpoint to get the user profile
+  PROFILE: '/users/profile',  
+  UPDATE_PROFILE_IMAGE: '/users/profile/image',  
+  UPDATE_COMMENTS_PROFILE_IMAGE: '/users/update-profile-image',                     
   FAVORITES: '/users/profile/favorites',             // Endpoint to manage user favorites
   LOGIN: '/users/login',                            // Endpoint for user login
   REGISTER: '/users/register',
-  REFRESH_TOKEN: '/auth/refresh-token'                       
+  REFRESH_TOKEN: '/auth/refresh-token',                    
 };

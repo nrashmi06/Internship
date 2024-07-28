@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { getLocalStorageItem } from './LocalStorage';
 import { Button, Modal } from 'react-bootstrap';
+import { updateProfileImage, updateCommentsProfileImage } from './Api';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './ProfileImage.css';
 
@@ -31,12 +31,6 @@ const ProfileImage = ({ profileImage, setProfileImage, setUpdateMessage, setUpda
 
     const handleSubmit = async () => {
         try {
-            const token = getLocalStorageItem('token');
-
-            if (!token) {
-                throw new Error('No token found. Please login.');
-            }
-
             let formData = new FormData();
             if (file) {
                 formData.append('profileImage', file);
@@ -44,19 +38,7 @@ const ProfileImage = ({ profileImage, setProfileImage, setUpdateMessage, setUpda
                 throw new Error('Please upload an image file.');
             }
 
-            const response = await fetch('/api/users/profile/image', {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: formData,
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const data = await response.json();
+            const data = await updateProfileImage(formData);
             setUpdateMessage('Profile image updated successfully');
             setProfileImage(data.profileImage);
             await updateCommentsProfileImage(data.profileImage); // Update comments with new profile image
@@ -65,30 +47,6 @@ const ProfileImage = ({ profileImage, setProfileImage, setUpdateMessage, setUpda
             console.error('Error updating profile image:', error.message);
             setUpdateError('Failed to update profile image');
             handleCloseModal();
-        }
-    };
-
-    const updateCommentsProfileImage = async (newProfileImage) => {
-        try {
-            const token = getLocalStorageItem('token');
-            const response = await fetch('/api/users/update-profile-image', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify({ newProfileImage })
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            
-            const data = await response.json();
-            setUpdateMessage('Comments updated with new profile image successfully');
-        } catch (error) {
-            console.error('Error updating comments profile image:', error.message);
-            setUpdateError('Failed to update comments profile image');
         }
     };
 
