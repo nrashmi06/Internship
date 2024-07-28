@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { getLocalStorageItem, setLocalStorageItem } from './LocalStorage';
-import { API_BASE_URL,API_ENDPOINTS } from './apiConfig';
-
+import { toggleFavorite } from './Api';
+import { API_BASE_URL, API_ENDPOINTS } from './apiConfig';
 
 const MealsCard = ({ meal, onImageClick, fullWidth }) => {
   const [isFavorited, setIsFavorited] = useState(false);
@@ -19,7 +19,7 @@ const MealsCard = ({ meal, onImageClick, fullWidth }) => {
     window.location.href = `/meal/${meal.idMeal}`;
   };
 
-  const toggleFavorite = async () => {
+  const handleToggleFavorite = async () => {
     const mealId = meal.idMeal.toString();
     setLoading(true);
 
@@ -38,25 +38,7 @@ const MealsCard = ({ meal, onImageClick, fullWidth }) => {
     setIsFavorited(!isFavorited);
 
     try {
-      const token = getLocalStorageItem('token');
-      if (!token) {
-        console.error('No token found');
-        return;
-      }
-
-      const method = isFavorited ? 'DELETE' : 'POST';
-      const response = await fetch(API_BASE_URL+API_ENDPOINTS.FAVORITES, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({ mealId }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to update favorite on server');
-      }
+      await toggleFavorite(mealId, isFavorited);
     } catch (error) {
       console.error('Failed to toggle favorite', error);
 
@@ -118,7 +100,7 @@ const MealsCard = ({ meal, onImageClick, fullWidth }) => {
             padding: '5px',
             boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
           }}
-          onClick={loading ? undefined : toggleFavorite}
+          onClick={loading ? undefined : handleToggleFavorite}
         ></i>
       </div>
       <Card.Body style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>

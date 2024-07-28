@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './commentSection.css';
+import { fetchComments, postComment, deleteComment } from './Api';
 import { getLocalStorageItem } from './LocalStorage';
+import './commentSection.css';
 
 const CommentSection = ({ mealId }) => {
     const [comments, setComments] = useState([]);
@@ -9,34 +9,25 @@ const CommentSection = ({ mealId }) => {
     const [error, setError] = useState(null);
     const [profileImage, setProfileImage] = useState('');
 
-    // Fetch user profile and token from local storage
     const userProfile = JSON.parse(localStorage.getItem('userProfile')) || {};
     const token = getLocalStorageItem('token');
 
     useEffect(() => {
         setProfileImage(userProfile.profileImage);
 
-        const fetchComments = async () => {
+        const fetchCommentsData = async () => {
             try {
-                const response = await axios.get(`/api/users/comments/${mealId}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-
-                // Ensure response data is an array
-                const responseData = Array.isArray(response.data) ? response.data : [];
-
-                setComments(responseData);
-                setError(null); // Clear any previous error messages
+                const responseData = await fetchComments(mealId);
+                setComments(Array.isArray(responseData) ? responseData : []);
+                setError(null);
             } catch (err) {
                 console.error('Error fetching comments:', err);
                 setError('Error fetching comments');
-                setComments([]); // Ensure comments is always an array
+                setComments([]);
             }
         };
-        fetchComments();
-    }, [mealId, token, userProfile.profileImage]);
+        fetchCommentsData();
+    }, [mealId, userProfile.profileImage]);
 
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
@@ -46,17 +37,8 @@ const CommentSection = ({ mealId }) => {
         }
 
         try {
-            const response = await axios.post('/api/users/comments', {
-                mealId,
-                text: newComment,
-                name: userProfile.name,
-                profileImage
-            }, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            setComments(prevComments => [...prevComments, response.data]);
+            const responseData = await postComment(mealId, newComment, userProfile.name, profileImage);
+            setComments(prevComments => [...prevComments, responseData]);
             setNewComment('');
             setError(null);
         } catch (err) {
@@ -68,12 +50,7 @@ const CommentSection = ({ mealId }) => {
     const handleCommentDelete = async (commentId) => {
         if (window.confirm('Are you sure you want to delete this comment?')) {
             try {
-                await axios.delete(`/api/users/comments/${commentId}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-
+                await deleteComment(commentId);
                 setComments(prevComments => prevComments.filter(comment => comment._id !== commentId));
             } catch (err) {
                 console.error('Error deleting comment:', err);

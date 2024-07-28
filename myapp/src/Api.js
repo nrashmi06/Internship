@@ -142,3 +142,64 @@ export const updateCommentsProfileImage = async (newProfileImage) => {
 
   return response.json();
 };
+
+// Toggle favorite functionality
+export const toggleFavorite = async (mealId, isFavorited) => {
+  const token = getAccessToken();
+
+  if (!token) {
+    throw new Error('No token found. Please login.');
+  }
+
+  const method = isFavorited ? 'DELETE' : 'POST';
+  const response = await fetchWithToken(`${API_BASE_URL}${API_ENDPOINTS.FAVORITES}`, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ mealId }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update favorite on server');
+  }
+
+  return response.json();
+};
+
+// Comments
+export const fetchComments = async (mealId) => {
+  const response = await fetchWithToken(`${API_BASE_URL}/users/comments/${mealId}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch comments');
+  }
+  return response.json();
+};
+
+export const postComment = async (mealId, text, name, profileImage) => {
+  const response = await fetchWithToken(`${API_BASE_URL}/users/comments`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ mealId, text, name, profileImage }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to post comment');
+  }
+  
+  return response.json();
+};
+
+export const deleteComment = async (commentId) => {
+  const response = await fetchWithToken(`${API_BASE_URL}/users/comments/${commentId}`, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to delete comment');
+  }
+  
+  return response.json();
+};
