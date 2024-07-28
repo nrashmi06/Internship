@@ -5,6 +5,7 @@ const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const profileRouter = require('./routes/profileRoutes');
 const commentRoutes = require('./routes/commentRoutes');
+const refreshRoutes = require('./routes/refreshRoutes');
 const path = require('path');
 const cors = require('cors');
 
@@ -21,6 +22,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/users', authRoutes);
 app.use('/api/users', profileRouter);
 app.use('/api/users', commentRoutes);
+app.use('/api/auth', refreshRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

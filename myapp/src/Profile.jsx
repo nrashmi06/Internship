@@ -3,6 +3,7 @@ import { getLocalStorageItem } from './LocalStorage';
 import { Alert, Card } from 'react-bootstrap';
 import ProfileImage from './ProfileImage';
 import './Profile.css';
+import { getProfile } from './Api';
 
 const Profile = () => {
     const [user, setUser] = useState(null);
@@ -15,25 +16,13 @@ const Profile = () => {
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
-                const token = getLocalStorageItem('token');
+                // const token = getLocalStorageItem('accessToken');
 
-                if (!token) {
-                    throw new Error('No token found. Please login.');
-                }
+                // if (!token) {
+                //     throw new Error('No token found. Please login.');
+                // }
 
-                const response = await fetch('/api/users/profile', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-
-                const data = await response.json();
+                const data = await getProfile();
                 setUser(data);
                 setProfileImage(data.profileImage);
             } catch (error) {

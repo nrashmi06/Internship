@@ -1,3 +1,4 @@
+// models/User.js
 const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema(
@@ -24,8 +25,11 @@ const userSchema = mongoose.Schema(
       default: 'uploads/default.png',
     },
     favorites: {
-      type: [String], 
+      type: [String],
       default: [],
+    },
+    refreshToken: {
+      type: String,
     },
   },
   {

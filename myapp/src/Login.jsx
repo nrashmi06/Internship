@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { setLocalStorageItem } from './LocalStorage';
-import { getProfile } from './Api'; // Ensure getProfile is exported properly
-import { API_BASE_URL,API_ENDPOINTS } from './apiConfig'; // Import API_ENDPOINTS
+import { setAccessToken, setRefreshToken } from './LocalStorage';
+import { getProfile } from './Api'; 
+import { API_BASE_URL, API_ENDPOINTS } from './apiConfig';
 
 const Login = ({ setAuth }) => {
   const [email, setEmail] = useState('');
@@ -19,7 +20,7 @@ const Login = ({ setAuth }) => {
       console.log('Login attempt with email:', email);
 
       // Perform login request using API_ENDPOINTS.LOGIN
-      const response = await fetch(`${API_BASE_URL+API_ENDPOINTS.LOGIN}`, {
+      const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.LOGIN}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,25 +37,25 @@ const Login = ({ setAuth }) => {
       const data = await response.json();
       console.log('Login successful:', data);
 
-      const token = data.token;
-      setLocalStorageItem('token', token); // Store token in local storage
+      const { accessToken, refreshToken } = data;
+      setAccessToken(accessToken); 
+      setRefreshToken(refreshToken);
+      console.log('\n \n access Tokens stored:', accessToken); 
+
+      console.log('\n \n refresh Tokens stored:', refreshToken);
 
       try {
-        // Fetch and store user profile including favorites
-        const profileData = await getProfile(token); // Use the getProfile function to fetch profile data
-
-        // Store favorites (array of meal IDs) in local storage
+        const profileData = await getProfile(accessToken); 
         setLocalStorageItem('favorites', profileData.favorites); 
       } catch (profileError) {
         console.error('Error fetching profile data:', profileError);
-        // Optionally handle profile fetch error (e.g., notify user)
       }
 
-      setAuth(true); // Update authentication state
-      navigate('/dashboard'); // Redirect to the dashboard
+      setAuth(true); 
+      navigate('/dashboard'); 
     } catch (loginError) {
       console.error('Login error:', loginError);
-      setError('Invalid email or password'); // Display error message
+      setError('Invalid email or password'); 
     }
   };
 

@@ -26,14 +26,19 @@ exports.login = async (req, res) => {
 
     console.log('Password matches');
 
-    // Generate JWT token
-    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    // Generate JWT tokens
+    const accessToken = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET, { expiresIn: '60s' });
+    const refreshToken = jwt.sign({ _id: user._id.toString() }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
 
-    console.log('JWT generated:', token);
+    // Save refresh token to the user
+    user.refreshToken = refreshToken;
+    await user.save();
+
+    console.log('JWT generated:', accessToken, '\n refresh token :', refreshToken);
 
     // Remove password from user object
     const { password: _, ...userWithoutPassword } = user.toObject();
-    res.send({ user: userWithoutPassword, token });
+    res.send({ user: userWithoutPassword, accessToken, refreshToken });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).send({ error: 'Server error, please try again later.' });

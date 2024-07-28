@@ -11,12 +11,13 @@ export const ENDPOINTS = {
 };
 
 // Define the base URL for your own API
-export const API_BASE_URL = '/api/users';
+export const API_BASE_URL = '/api';
 
 // Define endpoints for your own API
 export const API_ENDPOINTS = {
-  PROFILE: '/profile',                         // Endpoint to get the user profile
-  FAVORITES: '/profile/favorites',             // Endpoint to manage user favorites
-  LOGIN: '/login',                            // Endpoint for user login
-  REGISTER: '/register'                       // Endpoint for user registration
+  PROFILE: '/users/profile',                         // Endpoint to get the user profile
+  FAVORITES: '/users/profile/favorites',             // Endpoint to manage user favorites
+  LOGIN: '/users/login',                            // Endpoint for user login
+  REGISTER: '/users/register',
+  REFRESH_TOKEN: '/auth/refresh-token'                       
 };
