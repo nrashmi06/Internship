@@ -13,6 +13,8 @@ Welcome to the internship project! This README file provides an overview of the 
 8. [Task 6: Meal Page Addition](#task-6-meal-page-addition)
 9. [Task 7: Meals Page Correction and SignUp Backend](#task-7-meals-page-correction-and-signup-backend)
 10. [Task 8: Details Page Addition and Login Backend ](#task-8-details-page-addition-and-login-backend)
+11. [Task 9: Profile Page Addition and Backend ](#task-9-Profile-Page-Addition-and-Backend)
+12. [Task 10: Favorites Feature ](#task-10-Favorites-Feature)
 
 ## Introduction
 
@@ -150,3 +152,18 @@ Correct the meals page to show meals when a category is selected. Add a dropdown
 
 ## Task 8: Details Page Addition and Login Backend 
 I implemented a detailed recipe page and login backend for our application. The recipe detail page allows users to view comprehensive information about each recipe, including ingredients, steps, and instruction video. On the backend, I developed a secure login system using Node.js and Express, integrating MongoDB for user data storage. The authentication process includes JWT for token-based authentication and bcrypt for secure password hashing, ensuring that user credentials are safely managed.
+
+---
+
+## Task 9: Profile Page Addition and Backend
+
+Add a profile page that displays the user's profile image and other details. Implement the backend using the MERN stack, integrating MongoDB for data storage and Multer middleware for handling image uploads.
+
+---
+
+## Task 10: Favorites Feature
+
+Add a navigation tab for favorites and a favorite icon in the meal card. Extend the user model to include a list of favorite meal recipes and store the user's favorite meals.
+
+---
+

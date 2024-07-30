@@ -1,0 +1,62 @@
+.profile-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.profile-image {
+  margin-bottom: 20px;
+}
+
+.profile-image img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-image .no-image {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  color: #999;
+}
+
+.profile-wrapper {
+  background-color: #ffffff; /* White background */
+  padding: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Light gray border */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Light gray shadow */
+  border-radius: 8px; /* Rounded corners */
+  width: 100%;
+  max-width: 600px; /* Adjust max-width as needed */
+  margin: 0 auto; /* Center the profile wrapper */
+  display: flex; /* Enable flexbox layout */
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center items horizontally */
+}
+
+.profile-card {
+  align-items: center;
+  margin-top: 20px;
+  width: 100%; /* Take full width of the profile wrapper */
+  max-width: 100%; /* Ensure it respects the container width */
+  text-align: left; /* Align text properly */
+  padding: 20px; /* Add padding for spacing */
+}
+
+.update-messages {
+  position: absolute; /* Absolute position to place at the top of the container */
+  top: 20px; /* Adjust top position as needed */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center horizontally */
+  z-index: 1000; /* Higher z-index to ensure it appears above other content */
+  width: 100%;
+  max-width: 600px; /* Adjust max-width as needed */
+  padding: 0 20px; /* Padding for spacing */
+}
