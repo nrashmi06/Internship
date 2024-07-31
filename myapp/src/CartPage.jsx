@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getLocalStorageItem, setLocalStorageItem } from './LocalStorage';
+import { useSelector } from 'react-redux';
 import { fetchMealById } from './Api';
 import Loading from './Loading';
 import GridLayout from './GridLayout';  
@@ -7,10 +7,13 @@ import ListLayout from './ListLayout';
 import Button from 'react-bootstrap/Button'; 
 
 const CartPage = () => {
+  // Get the current state from the Redux store
+  const favoriteIds = useSelector((state) => state.favorites);
+  
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isGridLayout, setIsGridLayout] = useState(getLocalStorageItem('isGridLayout') === 'true');
+  const [isGridLayout, setIsGridLayout] = useState(localStorage.getItem('isGridLayout') === 'true');
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -18,7 +21,6 @@ const CartPage = () => {
       setError(null);
       try {
         console.log('Fetching favorite meals');
-        const favoriteIds = getLocalStorageItem('favorites') || [];
         const favoriteMeals = await Promise.all(
           favoriteIds.map(id => fetchMealById(id))
         );
@@ -32,12 +34,12 @@ const CartPage = () => {
     };
 
     fetchFavorites();
-  }, []);
+  }, [favoriteIds]);
 
   const toggleLayout = () => {
     const newLayout = !isGridLayout;
     setIsGridLayout(newLayout);
-    setLocalStorageItem('isGridLayout', newLayout);
+    localStorage.setItem('isGridLayout', newLayout);
   };
 
   if (loading) return <Loading />;

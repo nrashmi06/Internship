@@ -1,30 +1,15 @@
-import { BASE_URL, ENDPOINTS, API_BASE_URL, API_ENDPOINTS } from './apiConfig';
-import { getAccessToken, getRefreshToken, setAccessToken, setRefreshToken, clearTokens } from './LocalStorage';
+// api.js
+import { API_BASE_URL, API_ENDPOINTS ,ENDPOINTS,BASE_URL } from './apiConfig';
+import { getAccessToken, setAccessToken, clearTokens } from './LocalStorage';
+import  store  from './store'; // Import the Redux store
+import { addFavorite, removeFavorite } from './features/favorites/favoritesSlice';
 
-export const fetchWithToken = async (url, options = {}) => {
-  let token = getAccessToken();
-  options.headers = {
-    ...options.headers,
-    'Authorization': `Bearer ${token}`,
-  };
-
-  let response = await fetch(url, options);
-  if (response.status === 401) { // Token expired
-    const newTokens = await refreshAccessToken();
-    if (newTokens) {
-      token = newTokens.accessToken;
-      options.headers['Authorization'] = `Bearer ${token}`;
-      response = await fetch(url, options);
-    } else {
-      throw new Error('Unable to refresh token');
-    }
-  }
-
-  return response;
-};
-
+// Function to refresh access token
 export const refreshAccessToken = async () => {
-  const refreshToken = getRefreshToken();
+  const state = store.getState(); // Get the current state from the store
+  const refreshToken = state.token.refreshToken;
+  console.log('Refresh token:', refreshToken);
+
   if (!refreshToken) {
     clearTokens();
     window.location.href = '/';
@@ -50,6 +35,7 @@ export const refreshAccessToken = async () => {
     const data = await response.json();
     setAccessToken(data.accessToken);
     console.log('New access token:', data.accessToken);
+
     return data;
   } catch (error) {
     console.error('Error refreshing token:', error);
@@ -59,6 +45,34 @@ export const refreshAccessToken = async () => {
   }
 };
 
+// Function to fetch with token and handle token refresh if necessary
+export const fetchWithToken = async (url, options = {}) => {
+  let token = getAccessToken();
+  options.headers = {
+    ...options.headers,
+    'Authorization': `Bearer ${token}`,
+  };
+
+  let response = await fetch(url, options);
+
+  if (response.status === 401) { // Token expired
+    const newTokens = await refreshAccessToken();
+    console.log('New tokens:', newTokens);
+    console.log('Retrying request with new token');
+    console.log('refreshToken' , )
+    if (newTokens) {
+      token = newTokens.accessToken;
+      options.headers['Authorization'] = `Bearer ${token}`;
+      response = await fetch(url, options);
+    } else {
+      throw new Error('Unable to refresh token');
+    }
+  }
+
+  return response;
+};
+
+// Other API functions
 export const getProfile = async () => {
   const response = await fetchWithToken(`${API_BASE_URL}${API_ENDPOINTS.PROFILE}`);
   if (!response.ok) {
@@ -105,7 +119,7 @@ export const fetchMealById = async (id) => {
     if (!response.ok) {
       throw new Error('Failed to fetch meal');
     }
-
+    
     const data = await response.json();
     return data.meals[0];
   } catch (error) {
@@ -164,8 +178,21 @@ export const toggleFavorite = async (mealId, isFavorited) => {
     throw new Error('Failed to update favorite on server');
   }
 
-  return response.json();
+  const result = await response.json();
+  
+  // Update Redux state
+  const state = store.getState();
+  const favorites = state.favorites;
+
+  if (isFavorited) {
+    store.dispatch(removeFavorite(mealId));
+  } else {
+    store.dispatch(addFavorite(mealId));
+  }
+
+  return result;
 };
+
 
 // Comments
 export const fetchComments = async (mealId) => {
@@ -173,6 +200,8 @@ export const fetchComments = async (mealId) => {
   if (!response.ok) {
     throw new Error('Failed to fetch comments');
   }
+  const state = store.getState();
+  console.log('refreshtoken',state.token.refreshToken );
   return response.json();
 };
 

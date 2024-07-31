@@ -1,18 +1,20 @@
-// Login.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { setLocalStorageItem } from './LocalStorage';
-import { setAccessToken, setRefreshToken } from './LocalStorage';
-import { getProfile } from './Api'; 
+import { useDispatch } from 'react-redux';
+import { setRefreshToken } from './features/token/tokenSlice'; // Adjust import path as needed
 import { API_BASE_URL, API_ENDPOINTS } from './apiConfig';
+import { setFavorites } from './features/favorites/favoritesSlice'; // Adjust import path as needed
+import { getProfile } from './Api'; // Assuming you have a function to fetch user profile data
+import store from './store'; // Import the Redux store
 
 const Login = ({ setAuth }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -28,8 +30,6 @@ const Login = ({ setAuth }) => {
         body: JSON.stringify({ email, password }),
       });
 
-      console.log('Response:', response);
-
       if (!response.ok) {
         throw new Error('Login failed');
       }
@@ -38,15 +38,20 @@ const Login = ({ setAuth }) => {
       console.log('Login successful:', data);
 
       const { accessToken, refreshToken } = data;
-      setAccessToken(accessToken); 
-      setRefreshToken(refreshToken);
-      console.log('\n \n access Tokens stored:', accessToken); 
 
-      console.log('\n \n refresh Tokens stored:', refreshToken);
+      // Store access token in local storage
+      localStorage.setItem('accessToken', accessToken);
 
+      // Dispatch action to update Redux store with refresh token
+      dispatch(setRefreshToken(refreshToken));
       try {
-        const profileData = await getProfile(accessToken); 
-        setLocalStorageItem('favorites', profileData.favorites); 
+        const profileData = await getProfile(); 
+        dispatch(setFavorites(profileData.favorites)); // Dispatch favorites to Redux
+
+        // Log the updated state to the console
+        
+        console.log('Updated Redux state:', store.getState().favorites);
+          
       } catch (profileError) {
         console.error('Error fetching profile data:', profileError);
       }

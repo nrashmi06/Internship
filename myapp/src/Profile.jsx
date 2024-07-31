@@ -4,6 +4,7 @@ import { Alert, Card } from 'react-bootstrap';
 import ProfileImage from './ProfileImage';
 import './Profile.css';
 import { getProfile } from './Api';
+import Loading from './Loading';
 
 const Profile = () => {
     const [user, setUser] = useState(null);
@@ -53,7 +54,7 @@ const Profile = () => {
     const handleUpdateErrorClose = () => setUpdateError('');
 
     if (loading) {
-        return <div className="profile-container"><div className="loading">Loading...</div></div>;
+        return <div className="profile-container"><div className="loading"><Loading /></div></div>;
     }
 
     if (error) {

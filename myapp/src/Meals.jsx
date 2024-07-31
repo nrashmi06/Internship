@@ -8,29 +8,33 @@ import SearchBar from './SearchBar';
 import SortButton from './SortButton';
 import GridLayout from './GridLayout';
 import ListLayout from './ListLayout';
-import { fetchMealsByCategory } from './Api';
+import { fetchMealsByCategory, toggleFavorite } from './Api';
 import DropdownMenu from './DropdownMenu';
-import { getLocalStorageItem, setLocalStorageItem } from './LocalStorage';
+import { useDispatch, useSelector } from 'react-redux';
+import { addFavorite, removeFavorite, selectFavorites } from './features/favorites/favoritesSlice'; // Redux imports
 import './Meals.css';
 
 function Meals() {
   const { category: categoryParam } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const favorites = useSelector((state) => state.favorites);
+  console.log('Favorites:', favorites);
+
   const [category, setCategory] = useState(categoryParam || 'Seafood');
   const [meals, setMeals] = useState([]);
   const [filteredMeals, setFilteredMeals] = useState([]);
   const [showToast, setShowToast] = useState(false);
   const [toastImage, setToastImage] = useState('');
   const [loading, setLoading] = useState(true);
-  const [isGridLayout, setIsGridLayout] = useState(true); // Default value
+  const [isGridLayout, setIsGridLayout] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
   const [showFavorites, setShowFavorites] = useState(false);
   const [showNoneToast, setShowNoneToast] = useState(false);
 
-  // Fetch layout state from local storage on component mount
   useEffect(() => {
-    const storedLayout = getLocalStorageItem('isGridLayout');
+    const storedLayout = localStorage.getItem('isGridLayout');
     if (storedLayout) {
       setIsGridLayout(storedLayout === 'true');
     }
@@ -74,7 +78,7 @@ function Meals() {
   const toggleLayout = () => {
     const newLayout = !isGridLayout;
     setIsGridLayout(newLayout);
-    setLocalStorageItem('isGridLayout', newLayout ? 'true' : 'false');
+    localStorage.setItem('isGridLayout', newLayout ? 'true' : 'false');
   };
 
   const handleSortChange = () => {
@@ -95,12 +99,11 @@ function Meals() {
   };
 
   const handleShowFavorites = () => {
-    const favoriteIds = getLocalStorageItem('favorites') || [];
-    const favoriteMeals = meals.filter(meal => favoriteIds.includes(meal.idMeal.toString()));
+    const favoriteMeals = meals.filter(meal => favorites.includes(meal.idMeal.toString()));
 
     if (favoriteMeals.length === 0) {
       setFilteredMeals([]);
-      setShowNoneToast(true); // Show toast when no favorites are present
+      setShowNoneToast(true);
     } else {
       setFilteredMeals(favoriteMeals);
       setShowNoneToast(false);
@@ -111,6 +114,21 @@ function Meals() {
   const handleShowAllMeals = () => {
     setFilteredMeals(meals);
     setShowFavorites(false);
+  };
+
+  const handleToggleFavorite = (mealId) => {
+    const isFavorited = favorites.includes(mealId);
+    toggleFavorite(mealId, isFavorited)
+      .then(() => {
+        if (isFavorited) {
+          dispatch(removeFavorite(mealId));
+        } else {
+          dispatch(addFavorite(mealId));
+        }
+      })
+      .catch(error => {
+        console.error('Error toggling favorite:', error);
+      });
   };
 
   if (loading) {
@@ -153,6 +171,7 @@ function Meals() {
         toggleShowToast={toggleShowToast}
         toastImage={toastImage}
       />
+
     </>
   );
 }

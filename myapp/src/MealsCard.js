@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import { getLocalStorageItem, setLocalStorageItem } from './LocalStorage';
+import { useSelector } from 'react-redux';
 import { toggleFavorite } from './Api';
-import { API_BASE_URL, API_ENDPOINTS } from './apiConfig';
 
 const MealsCard = ({ meal, onImageClick, fullWidth }) => {
+  const favoriteIds = useSelector((state) => state.favorites);
   const [isFavorited, setIsFavorited] = useState(false);
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState('');
 
   useEffect(() => {
-    const storedFavorites = getLocalStorageItem('favorites') || [];
-    setIsFavorited(storedFavorites.includes(meal?.idMeal.toString()));
-  }, [meal]);
+    setIsFavorited(favoriteIds.includes(meal?.idMeal.toString()));
+  }, [favoriteIds, meal]);
 
   const handleClick = () => {
     window.location.href = `/meal/${meal.idMeal}`;
@@ -23,31 +22,12 @@ const MealsCard = ({ meal, onImageClick, fullWidth }) => {
     const mealId = meal.idMeal.toString();
     setLoading(true);
 
-    const storedFavorites = getLocalStorageItem('favorites') || [];
-    let updatedFavorites;
-
-    if (storedFavorites.includes(mealId)) {
-      updatedFavorites = storedFavorites.filter(id => id !== mealId);
-      setNotification('Removed from favorites');
-    } else {
-      updatedFavorites = [...storedFavorites, mealId];
-      setNotification('Added to favorites');
-    }
-
-    setLocalStorageItem('favorites', updatedFavorites);
-    setIsFavorited(!isFavorited);
-
     try {
       await toggleFavorite(mealId, isFavorited);
+      setNotification(isFavorited ? 'Removed from favorites' : 'Added to favorites');
+      setIsFavorited(!isFavorited);
     } catch (error) {
       console.error('Failed to toggle favorite', error);
-
-      const revertedFavorites = isFavorited
-        ? [...updatedFavorites, mealId]
-        : updatedFavorites.filter(id => id !== mealId);
-
-      setLocalStorageItem('favorites', revertedFavorites);
-      setIsFavorited(isFavorited);
     } finally {
       setLoading(false);
       setTimeout(() => setNotification(''), 1000);
