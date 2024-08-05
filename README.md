@@ -16,6 +16,7 @@ Welcome to the internship project! This README file provides an overview of the 
 11. [Task 9: Profile Page Addition and Backend ](#task-9-Profile-Page-Addition-and-Backend)
 12. [Task 10: Favorites Feature ](#task-10-Favorites-Feature)
 13. [Task 11: Refresh Token Addition and Comment Section](#task-11-Refresh-Token-Addition-and-Comment-Section)
+14. [Task 12: Redux Storeage](#task-12-Introduction-to-redux)
 
 ## Introduction
 
@@ -173,3 +174,10 @@ Add a navigation tab for favorites and a favorite icon in the meal card. Extend 
 Added the Refresh Token feature to prevent the failiure in API call on exceeding the expiry time of the Access Token, also added the comment section (GET, POST) functionality to the website.
 
 ---
+
+## Task 12: Introduction to Redux
+
+Added the Refresh token and favorites into Redux to store the values safely and retrive it safely.
+
+---
+
