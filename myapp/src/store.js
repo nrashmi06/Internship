@@ -8,16 +8,15 @@ import favoritesReducer from './features/favorites/favoritesSlice';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['token', 'favorites'], // Only persist these reducers
+  whitelist: ['token', 'favorites'], 
 };
 
-// Combine reducers into a root reducer
+
 const rootReducer = combineReducers({
   token: tokenReducer,
   favorites: favoritesReducer,
 });
 
-// Wrap the root reducer with persistReducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
