@@ -25,3 +25,5 @@ yarn-error.log*
 # Specific files or directories
 package-lock.json
 
+# Environment variables
+.env
