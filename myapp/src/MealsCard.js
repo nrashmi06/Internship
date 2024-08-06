@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { useSelector } from 'react-redux';
 import { toggleFavorite } from './Api';
+import './MealsCard.css'; // Import the new CSS file
 
 const MealsCard = ({ meal, onImageClick, fullWidth }) => {
   const favoriteIds = useSelector((state) => state.favorites);
@@ -41,17 +42,9 @@ const MealsCard = ({ meal, onImageClick, fullWidth }) => {
   return (
     <Card
       key={meal.idMeal}
-      className="card"
+      className="card-sl"
       style={{
-        marginTop: '5px',
-        border: '1px solid #ccc',
-        borderRadius: '8px',
         width: fullWidth ? '100%' : 'auto',
-        display: 'flex',
-        flexDirection: 'column',
-        boxSizing: 'border-box',
-        position: 'relative',
-        overflow: 'hidden', 
       }}
     >
       <div style={{ position: 'relative', flex: 1 }}>
@@ -60,33 +53,22 @@ const MealsCard = ({ meal, onImageClick, fullWidth }) => {
           src={meal.strMealThumb || ''}
           alt={meal.strMeal || ''}
           onClick={() => onImageClick(meal.strMealThumb)}
+          className="card-image"
           style={{
             cursor: 'pointer',
             height: 'auto',
             width: '100%',
-            objectFit: 'cover',
           }}
         />
         <i
-          className={`bi ${isFavorited ? 'bi-suit-heart-fill text-danger' : 'bi-suit-heart'} ${loading ? 'text-muted' : ''}`}
-          style={{
-            position: 'absolute',
-            top: '10px',
-            right: '10px',
-            fontSize: '1rem',
-            cursor: loading ? 'default' : 'pointer',
-            backgroundColor: 'white',
-            borderRadius: '50%',
-            padding: '5px',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
-          }}
+          className={`bi ${isFavorited ? 'bi-suit-heart-fill text-danger' : 'bi-suit-heart'} ${loading ? 'text-muted' : ''} card-action`}
           onClick={loading ? undefined : handleToggleFavorite}
         ></i>
       </div>
       <Card.Body style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-        <Card.Title className="text-center">{meal.strMeal}</Card.Title>
+        <Card.Title className="card-heading">{meal.strMeal}</Card.Title>
         <div className="d-flex justify-content-center mt-2">
-          <Button variant="primary" onClick={handleClick}>
+          <Button className="card-button" onClick={handleClick}>
             View
           </Button>
         </div>
