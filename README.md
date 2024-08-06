@@ -17,6 +17,7 @@ Welcome to the internship project! This README file provides an overview of the 
 12. [Task 10: Favorites Feature ](#task-10-Favorites-Feature)
 13. [Task 11: Refresh Token Addition and Comment Section](#task-11-Refresh-Token-Addition-and-Comment-Section)
 14. [Task 12: Redux Storeage](#task-12-Introduction-to-redux)
+15. [Task 15: Obfuscation](#task-13-Obfuscation)
 
 ## Introduction
 
@@ -178,6 +179,12 @@ Added the Refresh Token feature to prevent the failiure in API call on exceeding
 ## Task 12: Introduction to Redux
 
 Added the Refresh token and favorites into Redux to store the values safely and retrive it safely.
+
+---
+
+## Task 13: Obfuscation
+
+Implement and debug the obfuscation of sensitive data within the frontend codebase to enhance security, ensuring the obfuscated code functions correctly without exposing sensitive information.
 
 ---
 
