@@ -1,45 +1,70 @@
 import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Accordion from 'react-bootstrap/Accordion';
-import Alert from 'react-bootstrap/Alert';
-import { getLocalStorageItem } from './LocalStorage';
+import { Carousel } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './Dashboard.css'; 
 
 function Dashboard({ setAuth }) {
-  const [showAlert, setShowAlert] = useState(true);
-  const userProfile = (getLocalStorageItem('userProfile')) || {};
-  console.log('userProfile:', userProfile);
-  const auth = getLocalStorageItem('auth');
-  console.log('auth:', auth);
+  const [index, setIndex] = useState(0);
+
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+  };
 
   return (
-    <>
-      {showAlert && (
-        <Alert variant="success">
-          <Alert.Heading>This is the dashboard</Alert.Heading>
-          <hr />
-          <div className="d-flex justify-content-end">
-            <Button onClick={() => setShowAlert(false)} variant="outline-success">
-              Close me
-            </Button>
-          </div>
-        </Alert>
-      )}
+    <div className="carousel-container">
+      <div className="text-section">
+        <div className="welcome-message">
+          <p>Welcome to the Recipe Website! Explore a variety of delicious recipes, share your own culinary creations, and enjoy the vibrant community of food enthusiasts. Discover new flavors and cooking tips as you navigate through our curated selection of recipes.</p>
+        </div>
+      </div>
 
-      <h1>Dashboard</h1>
-
-      <Accordion defaultActiveKey="0" flush className='mb-4'>
-        <Accordion.Item eventKey="0">
-          <Accordion.Header>Accordion Item #1</Accordion.Header>
-          <Accordion.Body>
-            This is the dashboard
-          </Accordion.Body>
-        </Accordion.Item>
-      </Accordion>
-
-      {/* <Button className='w-100' variant="primary" size="lg" onClick={handleLogout}>
-        Logout
-      </Button> */}
-    </>
+      <div className="carousel-section">
+        <Carousel activeIndex={index} onSelect={handleSelect} interval={3000}>
+          <Carousel.Item>
+            <img
+              className="d-block half-screen"
+              src={`${process.env.PUBLIC_URL}/images/img1.png`}
+              alt="First slide"
+            />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block half-screen"
+              src={`${process.env.PUBLIC_URL}/images/img2.png`}
+              alt="Second slide"
+            />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block half-screen"
+              src={`${process.env.PUBLIC_URL}/images/img3.png`}
+              alt="Third slide"
+            />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block half-screen"
+              src={`${process.env.PUBLIC_URL}/images/img4.png`}
+              alt="Fourth slide"
+            />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block half-screen"
+              src={`${process.env.PUBLIC_URL}/images/img5.png`}
+              alt="Fifth slide"
+            />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block half-screen"
+              src={`${process.env.PUBLIC_URL}/images/img6.png`}
+              alt="Sixth slide"
+            />
+          </Carousel.Item>
+        </Carousel>
+      </div>
+    </div>
   );
 }
 

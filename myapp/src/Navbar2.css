@@ -1,6 +1,6 @@
 /* Ensure that the navbar occupies the full width */
 .navbar {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .navbar-nav {
@@ -18,5 +18,5 @@
 }
 
 .container-fluid {
-  padding: 0 15px; /* Adjust padding as needed */
+  padding: 0 10px; /* Adjust padding as needed */
 }
