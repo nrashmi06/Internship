@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Accordion from 'react-bootstrap/Accordion';
 import Alert from 'react-bootstrap/Alert';
-
+import { getLocalStorageItem } from './LocalStorage';
 
 function Dashboard({ setAuth }) {
   const [showAlert, setShowAlert] = useState(true);
+  const userProfile = (getLocalStorageItem('userProfile')) || {};
+  console.log('userProfile:', userProfile);
+  const auth = getLocalStorageItem('auth');
+  console.log('auth:', auth);
 
   return (
     <>
@@ -23,14 +27,14 @@ function Dashboard({ setAuth }) {
 
       <h1>Dashboard</h1>
 
-      <ccordion defaultActiveKey="0" flush className='mb-4'>
+      <Accordion defaultActiveKey="0" flush className='mb-4'>
         <Accordion.Item eventKey="0">
           <Accordion.Header>Accordion Item #1</Accordion.Header>
           <Accordion.Body>
             This is the dashboard
           </Accordion.Body>
         </Accordion.Item>
-      </ccordion>
+      </Accordion>
 
       {/* <Button className='w-100' variant="primary" size="lg" onClick={handleLogout}>
         Logout

@@ -9,17 +9,25 @@ const CommentSection = ({ mealId }) => {
     const [error, setError] = useState(null);
     const [profileImage, setProfileImage] = useState('');
 
-    const userProfile = JSON.parse(localStorage.getItem('userProfile')) || {};
+    // Fetch user profile and token from local storage
+    console.log('userProfile:', getLocalStorageItem('userProfile'));
+    const userProfile = JSON.parse(getLocalStorageItem('userProfile')) || {};
+    console.log('userProfile:', userProfile);
     const token = getLocalStorageItem('token');
 
     useEffect(() => {
         setProfileImage(userProfile.profileImage);
-    
+
         const fetchCommentsData = async () => {
             try {
-                const responseData = await fetchComments(mealId);
-                const sortedComments = Array.isArray(responseData) ? responseData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) : [];
-                setComments(sortedComments);
+                const responseData = await fetchComments(mealId, token); // Include token if needed for authorization
+                if (Array.isArray(responseData)) {
+                    // Sort comments by creation date
+                    const sortedComments = responseData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    setComments(sortedComments);
+                } else {
+                    setComments([]);
+                }
                 setError(null);
             } catch (err) {
                 console.error('Error fetching comments:', err);
@@ -27,19 +35,19 @@ const CommentSection = ({ mealId }) => {
                 setComments([]);
             }
         };
+
         fetchCommentsData();
-    }, [mealId, userProfile.profileImage]);
-    
+    }, [mealId, userProfile.profileImage, token]);
 
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
-        if (!newComment) {
+        if (!newComment.trim()) {
             setError('Comment text is required');
             return;
         }
 
         try {
-            const responseData = await postComment(mealId, newComment, userProfile.name, profileImage);
+            const responseData = await postComment(mealId, newComment, userProfile.name, profileImage, token); // Include token if needed
             setComments(prevComments => [...prevComments, responseData]);
             setNewComment('');
             setError(null);
@@ -52,7 +60,7 @@ const CommentSection = ({ mealId }) => {
     const handleCommentDelete = async (commentId) => {
         if (window.confirm('Are you sure you want to delete this comment?')) {
             try {
-                await deleteComment(commentId);
+                await deleteComment(commentId, token); // Include token if needed
                 setComments(prevComments => prevComments.filter(comment => comment._id !== commentId));
             } catch (err) {
                 console.error('Error deleting comment:', err);

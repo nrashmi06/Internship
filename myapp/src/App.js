@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
@@ -12,34 +12,35 @@ import Meals from './Meals';
 import Profile from './Profile';
 import MealDetail from './MealDetail';
 import CartPage from './CartPage';
-import { getLocalStorageItem, setLocalStorageItem } from './LocalStorage'; 
-
+import { getLocalStorageItem, setLocalStorageItem } from './LocalStorage';
 
 function App() {
-  const [auth, setAuth] = React.useState(() => {
+  const [auth, setAuth] = useState(() => {
     const authLocalStorage = getLocalStorageItem('auth');
+    console.log('Loaded auth from local storage:', authLocalStorage); // Debug
     if (authLocalStorage === null) {
-      setLocalStorageItem('auth', false); 
+      setLocalStorageItem('auth', false);
       return false;
     }
     return authLocalStorage;
   });
 
   useEffect(() => {
-    setLocalStorageItem('auth', auth); 
-    Cookies.set('auth', JSON.stringify(auth), { expires: 1 }); 
+    console.log('Setting auth in local storage:', auth); 
+    setLocalStorageItem('auth', auth);
+    Cookies.set('auth', JSON.stringify(auth), { expires: 1 });
   }, [auth]);
 
   return (
     <>
-      {auth ? <Navbar2 setAuth={setAuth} /> : <Navbar />} 
+      {auth ? <Navbar2 setAuth={setAuth} /> : <Navbar />}
       <Routes>
         <Route path="/" element={auth ? <Navigate to="/dashboard" /> : <Login setAuth={setAuth} />} />
         <Route path="/signup" element={auth ? <Navigate to="/dashboard" /> : <Signup />} />
         <Route path="/dashboard" element={auth ? <Dashboard setAuth={setAuth} /> : <Navigate to="/" />} />
         <Route path="/recipies" element={auth ? <Recipie /> : <Navigate to="/" />} />
         <Route path="/meals/:category" element={auth ? <Meals /> : <Navigate to="/" />} />
-        <Route path="/meals" element={auth ? <Meals /> : <Navigate to="/" />} /> 
+        <Route path="/meals" element={auth ? <Meals /> : <Navigate to="/" />} />
         <Route path="/meal/:mealId" element={auth ? <MealDetail /> : <Navigate to="/" />} />
         <Route path="/profile" element={auth ? <Profile /> : <Navigate to="/" />} />
         <Route path="/cart" element={auth ? <CartPage /> : <Navigate to="/" />} />

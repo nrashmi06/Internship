@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useDispatch } from 'react-redux';
-import { setRefreshToken } from './features/token/tokenSlice';
+import { setRefreshToken } from './features/token/tokenSlice'; // Adjust import path as needed
 import { API_BASE_URL, API_ENDPOINTS } from './apiConfig';
 import { setFavorites } from './features/favorites/favoritesSlice'; 
 import { getProfile } from './Api'; 
 import store from './store'; 
+import {setLocalStorageItem} from './LocalStorage';
 
 const Login = ({ setAuth }) => {
   const [email, setEmail] = useState('');
@@ -21,6 +22,7 @@ const Login = ({ setAuth }) => {
     try {
       console.log('Login attempt with email:', email);
 
+      // Perform login request using API_ENDPOINTS.LOGIN
       const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.LOGIN}`, {
         method: 'POST',
         headers: {
@@ -38,13 +40,18 @@ const Login = ({ setAuth }) => {
 
       const { accessToken, refreshToken } = data;
 
+      // Store access token in local storage
       localStorage.setItem('accessToken', accessToken);
 
+      // Dispatch action to update Redux store with refresh token
       dispatch(setRefreshToken(refreshToken));
       try {
         const profileData = await getProfile(); 
-        dispatch(setFavorites(profileData.favorites));
+        console.log('Profile data:', profileData);
+        setLocalStorageItem('userProfile', JSON.stringify(profileData)); // Store profile data in local storage
+        dispatch(setFavorites(profileData.favorites)); // Dispatch favorites to Redux
 
+        // Log the updated state to the console
         
         console.log('Updated Redux state:', store.getState().favorites);
           
