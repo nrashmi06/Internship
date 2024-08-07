@@ -12,7 +12,7 @@
     text-align: center;
 }
 
-.meal-instruction{
+.meal-instruction {
     text-align: justify;
 }
 
@@ -23,6 +23,9 @@
     padding: 20px;
     box-sizing: border-box;
     margin-top: 20px; 
+    box-shadow: 0 0 15px rgba(10, 10, 10, 0.3); /* Adds shadow effect */
+    border-radius: 8px; /* Adds rounded corners */
+    background-color: #fff; /* Ensures a white background */
 }
 
 .ingredients-list {
@@ -40,12 +43,15 @@
     object-fit: cover; 
     box-sizing: border-box; 
     margin-bottom: 20px; 
+    box-shadow: 0 0 15px rgba(10, 10, 10, 0.3); /* Adds shadow effect */
 }
-
-
 
 @media (max-width: 768px) {
     .meal-detail-content {
         padding: 10px;
+    }
+
+    .meal-detail-image {
+        height: auto; /* Adjusts height for smaller screens */
     }
 }
