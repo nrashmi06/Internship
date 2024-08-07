@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { fetchComments, postComment, deleteComment } from './Api';
 import { getLocalStorageItem } from './LocalStorage';
 import './commentSection.css';
@@ -9,33 +9,30 @@ const CommentSection = ({ mealId }) => {
     const [error, setError] = useState(null);
     const [profileImage, setProfileImage] = useState('');
 
-    console.log('userProfile:', getLocalStorageItem('userProfile'));
     const userProfile = JSON.parse(getLocalStorageItem('userProfile')) || {};
-    console.log('userProfile:', userProfile);
     const token = getLocalStorageItem('token');
+
+    const fetchCommentsData = useCallback(async () => {
+        try {
+            const responseData = await fetchComments(mealId, token);
+            if (Array.isArray(responseData)) {
+                const sortedComments = responseData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                setComments(sortedComments);
+            } else {
+                setComments([]);
+            }
+            setError(null);
+        } catch (err) {
+            console.error('Error fetching comments:', err);
+            setError('Error fetching comments');
+            setComments([]);
+        }
+    }, [mealId, token]);
 
     useEffect(() => {
         setProfileImage(userProfile.profileImage);
-
-        const fetchCommentsData = async () => {
-            try {
-                const responseData = await fetchComments(mealId, token); 
-                if (Array.isArray(responseData)) {
-                    const sortedComments = responseData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                    setComments(sortedComments);
-                } else {
-                    setComments([]);
-                }
-                setError(null);
-            } catch (err) {
-                console.error('Error fetching comments:', err);
-                setError('Error fetching comments');
-                setComments([]);
-            }
-        };
-
         fetchCommentsData();
-    }, [mealId, userProfile.profileImage, token]);
+    }, [userProfile.profileImage, fetchCommentsData]);
 
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
@@ -45,10 +42,10 @@ const CommentSection = ({ mealId }) => {
         }
 
         try {
-            const responseData = await postComment(mealId, newComment, userProfile.name, profileImage, token); 
-            setComments(prevComments => [...prevComments, responseData]);
+            const responseData = await postComment(mealId, newComment, userProfile.name, profileImage, token);
             setNewComment('');
             setError(null);
+            fetchCommentsData(); // Refetch comments
         } catch (err) {
             console.error('Error posting comment:', err);
             setError('Error posting comment');
@@ -58,8 +55,8 @@ const CommentSection = ({ mealId }) => {
     const handleCommentDelete = async (commentId) => {
         if (window.confirm('Are you sure you want to delete this comment?')) {
             try {
-                await deleteComment(commentId, token); 
-                setComments(prevComments => prevComments.filter(comment => comment._id !== commentId));
+                await deleteComment(commentId, token);
+                fetchCommentsData(); // Refetch comments
             } catch (err) {
                 console.error('Error deleting comment:', err);
                 setError('Error deleting comment');
