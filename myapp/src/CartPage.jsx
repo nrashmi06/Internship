@@ -5,7 +5,7 @@ import Loading from './Loading';
 import GridLayout from './GridLayout';  
 import ListLayout from './ListLayout';  
 import Button from 'react-bootstrap/Button'; 
-import './CartPage.css'; // Ensure you import your CSS
+import './CartPage.css'; 
 
 const CartPage = () => {
   const favoriteIds = useSelector((state) => state.favorites);

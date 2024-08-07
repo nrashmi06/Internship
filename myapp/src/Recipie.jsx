@@ -8,7 +8,7 @@ import GridLayout from './GridLayout';
 import ListLayout from './ListLayout';
 import SearchBar from './SearchBar';
 import SortButton from './SortButton';
-import { getLocalStorageItem, setLocalStorageItem } from './LocalStorage';  // Import the utility functions
+import { getLocalStorageItem, setLocalStorageItem } from './LocalStorage'; 
 
 function Recipie() {
   const [recipes, setRecipes] = useState([]);
@@ -20,7 +20,6 @@ function Recipie() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
 
-  // Load layout preference from local storage
   useEffect(() => {
     const savedLayout = getLocalStorageItem('layout');
     console.log('Saved layout from local storage:', savedLayout); 

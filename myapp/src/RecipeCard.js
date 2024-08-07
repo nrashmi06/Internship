@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import './RecipeCard.css'; // Make sure to import your CSS file
+import './RecipeCard.css'; 
 
 const RecipeCard = ({ item, onImageClick, fullWidth }) => {
   const handleClick = () => {

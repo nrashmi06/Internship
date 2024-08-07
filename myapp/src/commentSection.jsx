@@ -9,7 +9,6 @@ const CommentSection = ({ mealId }) => {
     const [error, setError] = useState(null);
     const [profileImage, setProfileImage] = useState('');
 
-    // Fetch user profile and token from local storage
     console.log('userProfile:', getLocalStorageItem('userProfile'));
     const userProfile = JSON.parse(getLocalStorageItem('userProfile')) || {};
     console.log('userProfile:', userProfile);
@@ -20,9 +19,8 @@ const CommentSection = ({ mealId }) => {
 
         const fetchCommentsData = async () => {
             try {
-                const responseData = await fetchComments(mealId, token); // Include token if needed for authorization
+                const responseData = await fetchComments(mealId, token); 
                 if (Array.isArray(responseData)) {
-                    // Sort comments by creation date
                     const sortedComments = responseData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                     setComments(sortedComments);
                 } else {
@@ -47,7 +45,7 @@ const CommentSection = ({ mealId }) => {
         }
 
         try {
-            const responseData = await postComment(mealId, newComment, userProfile.name, profileImage, token); // Include token if needed
+            const responseData = await postComment(mealId, newComment, userProfile.name, profileImage, token); 
             setComments(prevComments => [...prevComments, responseData]);
             setNewComment('');
             setError(null);
@@ -60,7 +58,7 @@ const CommentSection = ({ mealId }) => {
     const handleCommentDelete = async (commentId) => {
         if (window.confirm('Are you sure you want to delete this comment?')) {
             try {
-                await deleteComment(commentId, token); // Include token if needed
+                await deleteComment(commentId, token); 
                 setComments(prevComments => prevComments.filter(comment => comment._id !== commentId));
             } catch (err) {
                 console.error('Error deleting comment:', err);

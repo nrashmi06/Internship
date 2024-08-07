@@ -50,7 +50,7 @@ exports.getCommentsByMealId = async (req, res) => {
 // Remove a comment
 exports.removeComment = async (req, res) => {
     const { commentId } = req.params;
-    const userId = req.user._id; // Extract userId from authenticated user
+    const userId = req.user._id;
 
     try {
         if (!mongoose.Types.ObjectId.isValid(commentId)) {
@@ -67,7 +67,7 @@ exports.removeComment = async (req, res) => {
             return res.status(403).json({ message: 'Not authorized to delete this comment' });
         }
 
-        await comment.remove();
+        await Comment.findByIdAndDelete(commentId);
         res.json({ message: 'Comment removed' });
     } catch (error) {
         console.error('Error removing comment:', error);

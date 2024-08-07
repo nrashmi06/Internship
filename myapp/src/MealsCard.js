@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { useSelector } from 'react-redux';
 import { toggleFavorite } from './Api';
-import './MealsCard.css'; // Import the new CSS file
+import './MealsCard.css'; 
 
 const MealsCard = ({ meal, onImageClick, fullWidth }) => {
   const favoriteIds = useSelector((state) => state.favorites);
