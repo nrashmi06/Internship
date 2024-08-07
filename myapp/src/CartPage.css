@@ -1,26 +1,31 @@
 /* Styles for CartPage */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
-  }
-  
-  .layout-toggle-button {
-    margin-bottom: 20px;
-  }
-  
-  .header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .header h1 {
-    margin-bottom: 10px;
-  }
-  
-  .header button {
-    margin-bottom: 20px;
-  }
-  
+.cart-page-container {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.layout-toggle-button {
+  margin-bottom: 20px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  margin-bottom: 10px;
+}
+
+.header button {
+  margin-bottom: 20px;
+}
+
+.layout-container {
+  width: 100%;
+  padding: 0 15px;
+  box-sizing: border-box;
+}

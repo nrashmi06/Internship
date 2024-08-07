@@ -5,9 +5,9 @@ import Loading from './Loading';
 import GridLayout from './GridLayout';  
 import ListLayout from './ListLayout';  
 import Button from 'react-bootstrap/Button'; 
+import './CartPage.css'; // Ensure you import your CSS
 
 const CartPage = () => {
-  // Get the current state from the Redux store
   const favoriteIds = useSelector((state) => state.favorites);
   
   const [favorites, setFavorites] = useState([]);
@@ -46,9 +46,9 @@ const CartPage = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="container">
-      <header className="d-flex flex-column align-items-center mb-4">
-        <h1 className="mb-3">Your Favorite Meals</h1>
+    <div className="cart-page-container">
+      <header className="header">
+        <h1>Your Favorite Meals</h1>
         <Button 
           onClick={toggleLayout} 
           variant="primary" 
@@ -57,11 +57,13 @@ const CartPage = () => {
           {isGridLayout ? 'Switch to List View' : 'Switch to Grid View'}
         </Button>
       </header>
-      {isGridLayout ? (
-        <GridLayout items={favorites} type="meals" />
-      ) : (
-        <ListLayout items={favorites} type="meals" />
-      )}
+      <div className="layout-container">
+        {isGridLayout ? (
+          <GridLayout items={favorites} type="meals" />
+        ) : (
+          <ListLayout items={favorites} type="meals" />
+        )}
+      </div>
     </div>
   );
 };

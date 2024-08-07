@@ -29,7 +29,6 @@ function Recipie() {
     }
   }, []);
 
-  // Fetch recipes and set state
   useEffect(() => {
     fetchRecipes(ENDPOINTS.CATEGORIES)
       .then(data => {
@@ -43,7 +42,6 @@ function Recipie() {
       });
   }, []);
 
-  // Filter recipes based on search term
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       const filtered = recipes.filter(recipe =>
@@ -88,7 +86,7 @@ function Recipie() {
   return (
     <>
       <header>
-        <h1 className='d-flex justify-content-center'>Recipes</h1>
+        <h1 className='d-flex justify-content-center'>Categories</h1>
         <div className='d-flex justify-content-center'>
           <div className='m-4'>
             <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
