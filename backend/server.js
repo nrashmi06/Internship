@@ -14,10 +14,12 @@ connectDB();
 
 const app = express();
 
-app.use(cors({
-  origin: 'https://internship-4d4f.onrender.com/'
-}));
+app.use(cors());
 app.use(express.json());
+
+app.get('*', (req, res) => {
+  res.status(404).send('Not Found');
+});
 
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 app.use('/api/users', userRoutes);
