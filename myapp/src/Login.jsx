@@ -42,10 +42,12 @@ const Login = ({ setAuth }) => {
 
       // Store access token in local storage
       localStorage.setItem('accessToken', accessToken);
-
+      console.log('Access token stored:', accessToken);
       // Dispatch action to update Redux store with refresh token
       dispatch(setRefreshToken(refreshToken));
+      console.log('Refresh token dispatched:', refreshToken);
       try {
+        console.log('Fetching profile data...');
         const profileData = await getProfile(); 
         console.log('Profile data:', profileData);
         setLocalStorageItem('userProfile', JSON.stringify(profileData)); // Store profile data in local storage
