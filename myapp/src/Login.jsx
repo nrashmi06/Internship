@@ -30,7 +30,7 @@ const Login = ({ setAuth }) => {
         },
         body: JSON.stringify({ email, password }),
       });
-
+       console.log('Login response:', response);
       if (!response.ok) {
         throw new Error('Login failed');
       }
