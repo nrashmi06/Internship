@@ -1,5 +1,5 @@
 // apiConfig.js
-import config from '../config';
+import config from './config';
 
 export const BASE_URL = 'https://www.themealdb.com/api/json/v1/1';
 
