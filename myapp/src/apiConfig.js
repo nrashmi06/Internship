@@ -1,25 +1,22 @@
 // apiConfig.js
+import config from './config';
 
-// Define the base URL for the external API (TheMealDB)
 export const BASE_URL = 'https://www.themealdb.com/api/json/v1/1';
 
-// Define the endpoints for the external API (TheMealDB)
 export const ENDPOINTS = {
-  CATEGORIES: '/categories.php',                // Endpoint to get meal categories
-  MEALS_BY_CATEGORY: '/filter.php?c=',          // Endpoint to get meals by category
-  DETAIL_BY_ID: '/lookup.php?i='                // Endpoint to get meal details by ID
+  CATEGORIES: '/categories.php',               
+  MEALS_BY_CATEGORY: '/filter.php?c=',         
+  DETAIL_BY_ID: '/lookup.php?i='               
 };
 
-// Define the base URL for your own API
-export const API_BASE_URL = '/api';
+export const API_BASE_URL = `${config.apiUrl}/api`;
 
-// Define endpoints for your own API
 export const API_ENDPOINTS = {
   PROFILE: '/users/profile',  
   UPDATE_PROFILE_IMAGE: '/users/profile/image',  
   UPDATE_COMMENTS_PROFILE_IMAGE: '/users/update-profile-image',                     
-  FAVORITES: '/users/profile/favorites',             // Endpoint to manage user favorites
-  LOGIN: '/users/login',                            // Endpoint for user login
+  FAVORITES: '/users/profile/favorites',            
+  LOGIN: '/users/login',                            
   REGISTER: '/users/register',
   REFRESH_TOKEN: '/auth/refresh-token',                    
 };

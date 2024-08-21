@@ -1,7 +1,7 @@
 // api.js
 import { API_BASE_URL, API_ENDPOINTS ,ENDPOINTS,BASE_URL } from './apiConfig';
 import { getAccessToken, setAccessToken, clearTokens } from './LocalStorage';
-import  store  from './store'; // Import the Redux store
+import  store  from './store'; 
 import { addFavorite, removeFavorite } from './features/favorites/favoritesSlice';
 
 // Function to refresh access token
