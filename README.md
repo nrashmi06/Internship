@@ -17,7 +17,7 @@ Welcome to the internship project! This README file provides an overview of the 
 12. [Task 10: Favorites Feature ](#task-10-Favorites-Feature)
 13. [Task 11: Refresh Token Addition and Comment Section](#task-11-Refresh-Token-Addition-and-Comment-Section)
 14. [Task 12: Redux Storeage](#task-12-Introduction-to-redux)
-15. [Task 15: Obfuscation](#task-13-Obfuscation)
+15. [Task 13: Obfuscation](#task-13-Obfuscation)
 
 ## Introduction
 
